@@ -6,7 +6,6 @@ import {Context} from "../index";
 
 const AppRouter = () => {
     const {user} = useContext(Context)
-
     return (
         user.isAuth
             ? <Routes>
@@ -19,7 +18,7 @@ const AppRouter = () => {
                 )}
                     <Route
                     path="*"
-                    element={<Navigate to="/admin" replace />}
+                    element={<Navigate to="/user" replace />}
                     />
                 </Routes>
 
@@ -33,7 +32,7 @@ const AppRouter = () => {
                 )}
                     <Route
                     path="*"
-                    element={<Navigate to="/collections" replace />}
+                    element={<Navigate to="/collection" replace />}
                     />
                 </Routes>
     );
