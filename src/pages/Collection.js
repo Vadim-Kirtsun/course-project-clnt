@@ -1,5 +1,5 @@
 import React from 'react';
-import TableItem from "../components/TableItem";
+import TableItem from "../components/TableUsers";
 
 
 const Collection = () => {

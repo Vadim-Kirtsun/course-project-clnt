@@ -1,93 +1,77 @@
 import React, {useState} from 'react';
-import {Button, Col, Dropdown, Form, Modal, Row} from "react-bootstrap";
+import {
+    Button,
+    Form,
+    Input,
+    Select,
+    Modal
+} from 'antd';
+import TextArea from "antd/es/input/TextArea";
+import UploadImage from "../UploadImage";
 
-const CreateCollection = ({show, onHide}) => {
+const CreateCollection = ({visible, setVisible}) => {
     const subjects = ["airplane", "car", "moto"];
     const types = ["Целочисленное", "Строковое", "Многострочный текст", "Чекбокс", "Дата"];
     const [field, setField] = useState([]);
+    const [name, setName] = useState([]);
 
     const addField = () => {
         setField([...field, {id: Date.now(), title: ''}])
     }
-
     const removeField = (id) => {
         setField(field.filter(f => f.id !== id))
     }
+    const hideModal = () => {
+        setVisible(false);
+    };
+    const [componentSize, setComponentSize] = useState('default');
 
+    const onFormLayoutChange = ({ size }) => {
+        setComponentSize(size);
+    };
     return (
         <Modal
-            show={show}
-            onHide={onHide}
-            size="lg"
-            centered
+            title="Add New Collection"
+            visible={visible}
+            onOk={hideModal}
+            onCancel={hideModal}
         >
-            <Modal.Header closeButton>
-                <Modal.Title id="contained-modal-title-vcenter">
-                    Добавить коллекцию
-                </Modal.Title>
-            </Modal.Header>
-            <Modal.Body>
-                <Form>
-                    <Form.Control
-                        className="mb-2"
-                        placeholder="Введите название"
-                    />
-                    <div className="mb-2">
-                        <textarea className="form-control" id="exampleFormControlTextarea1" rows="3"
-                                  placeholder="Введите описание коллекции..."
-                        ></textarea>
-                    </div>
-                    <Dropdown className="mt-2 mb-2">
-                        <Dropdown.Toggle>Выберите тему</Dropdown.Toggle>
-                        <Dropdown.Menu>
-                            {subjects.map(subject =>
-                                <Dropdown.Item key={subject}>{subject}</Dropdown.Item>
-                            )}
-                        </Dropdown.Menu>
-                    </Dropdown>
-                    <Form.Control
-                        type="file"
-                    />
-                    <hr/>
-                    <Button
-                        variant={"outline-dark"}
-                        onClick={() => addField()}
-                        >
-                        Добавить новое поле
-                    </Button>
-                    {field.map(f =>
-                        <Row className="mt-3" key={f.id}>
-                            <Col md={4}>
-                                <Form.Control
-                                    placeholder="Введите название"
-                                />
-                            </Col>
-                            <Col md={3}>
-                            <Dropdown className="mt-2 mb-2">
-                                <Dropdown.Toggle>Выберите тип</Dropdown.Toggle>
-                                <Dropdown.Menu>
-                                    {types.map(type =>
-                                        <Dropdown.Item key={type}>{type}</Dropdown.Item>
-                                    )}
-                                </Dropdown.Menu>
-                            </Dropdown>
-                            </Col>
-                            <Col md={4}>
-                                <Button
-                                    variant={"outline-danger"}
-                                    onClick={() => removeField(f.id)}
-                                    >
-                                    Удалить
-                                </Button>
-                            </Col>
-                        </Row>
-                    )}
-                </Form>
-            </Modal.Body>
-            <Modal.Footer>
-                <Button variant="outline-danger" onClick={() => onHide()}>Закрыть</Button>
-                <Button variant="outline-success" onClick={onHide}>Добавить</Button>
-            </Modal.Footer>
+            <Form
+            labelCol={{
+            span: 4,
+        }}
+            wrapperCol={{
+            span: 14,
+        }}
+            layout="horizontal"
+            initialValues={{
+            size: componentSize,
+        }}
+            onValuesChange={onFormLayoutChange}
+            size={componentSize}
+            >
+            <Form.Item label="Name">
+            <Input value={name}
+                   onChange={(e) => setName(e.target.value)}/>
+            </Form.Item>
+            <Form.Item label="Description">
+            <TextArea rows={4} />
+            </Form.Item>
+            <Form.Item label="Subject">
+            <Select>
+            <Select.Option value="airplane">Airplane</Select.Option>
+            <Select.Option value="car">Car</Select.Option>
+            <Select.Option value="moto">Moto</Select.Option>
+            </Select>
+            </Form.Item>
+            <Form.Item label="Image">
+                <UploadImage/>
+            </Form.Item>
+            <Form.Item label="AdditionalItems">
+
+            </Form.Item>
+            </Form>
+
         </Modal>
     );
 };

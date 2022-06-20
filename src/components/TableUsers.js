@@ -55,10 +55,9 @@ const TableUsers = ({setSelectedIds, setChangesCount, changesCount}) => {
     }
 
     const actionButton = (id, role) => {
-        const isUser = role.toLowerCase() == "user";
+        const isUser = role.toUpperCase() == "USER";
         const param = (isUser) ? "ADMIN" : "USER";
-        const label = (isUser) ? "Admin" : "User";
-        return  <Button onClick={() => changeRole(id, param)}>Make {label}</Button>;
+        return  <Button onClick={() => changeRole(id, param)}>Make {param}</Button>;
     }
 
    useEffect(() => {

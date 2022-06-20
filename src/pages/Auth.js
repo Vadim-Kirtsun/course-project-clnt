@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {Button, Card, Container, Form, Row} from "react-bootstrap";
 import {NavLink, useLocation, useNavigate} from "react-router-dom";
-import {COLLECTION_ROUTER, LOGIN_ROUTER, REGISTRATION_ROUTER} from "../utils/consts";
+import {LOGIN_ROUTER, REGISTRATION_ROUTER, MY_COLLECTIONS_ROUTER} from "../utils/consts";
 import {login, registration} from "../http/userApi";
 import {observer} from "mobx-react-lite";
 import {Context} from "../index";
@@ -16,7 +16,6 @@ const Auth = observer( () => {
     const [password, setPassword] = useState('');
 
     const click = async () => {
-        debugger
         try{
             if (isLogin) {
                 const data = await login(email, password);
@@ -25,7 +24,7 @@ const Auth = observer( () => {
             }
             user.setUser(user);
             user.setIsAuth(true);
-            navigate(COLLECTION_ROUTER, { replace: true });
+            navigate(MY_COLLECTIONS_ROUTER, { replace: true });
         } catch (e) {
             alert(e.response.data.message);
         }

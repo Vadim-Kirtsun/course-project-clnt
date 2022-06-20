@@ -6,6 +6,17 @@
   padding: 0 2%;
 }
 
+.navbar {
+  height: 70px;
+  width: 95vw;
+  display: flex;
+  justify-content: flex-end;
+  align-items: center;
+  padding: 0 15px;
+  background: lightgray;
+  margin-bottom: 50px;
+}
+
 .toolbar {
   height: 50px;
   width: 100%;
@@ -18,4 +29,14 @@
 
 .icon {
   margin: 0 20px;
+}
+
+.subHeader {
+  display: inline-flex;
+  min-width: 100%;
+  align-items: baseline;
+}
+
+.subHeader div{
+  width: 85%;
 }

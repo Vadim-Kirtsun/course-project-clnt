@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import TableUsers from "../components/TableItem";
+import TableUsers from "../components/TableUsers";
 import Toolbar from "../components/Toolbar";
 
 const Admin = () => {

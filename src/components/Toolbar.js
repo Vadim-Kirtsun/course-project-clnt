@@ -2,13 +2,11 @@ import React, {useContext} from 'react';
 import { Button } from 'antd';
 import 'antd/dist/antd.css';
 import { DeleteOutlined, UnlockFilled } from '@ant-design/icons';
-import Axios from "axios";
-import {Context} from "../index";
 import {blockUser, deleteUser, unblockUser} from "../http/userApi";
 
 
 const Toolbar = ({selectedIds, setChangesCount, changesCount}) => {
-    const {setIsAuth} = useContext(Context);
+
 
     function logoutCurrentUserIfExistInSelectedIds() {
         let currentId = Number(localStorage.getItem('id'));

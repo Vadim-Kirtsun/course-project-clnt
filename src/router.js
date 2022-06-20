@@ -1,16 +1,18 @@
 import Admin from "./pages/Admin";
 import {
+    HOME,
     ADMIN_ROUTER,
     COLLECTION_ROUTER,
     ITEM_ROUTER,
     LOGIN_ROUTER,
     REGISTRATION_ROUTER,
-    USER_PAGE_ROUTER
+    MY_COLLECTIONS_ROUTER
 } from "./utils/consts";
 import Collection from "./pages/Collection";
 import Item from "./pages/Item";
 import Auth from "./pages/Auth";
-import UserPage from "./pages/UserPage";
+import MyCollections from "./pages/MyCollections";
+import Home from "./components/Home";
 
 
 export const authRoutes = [
@@ -19,12 +21,16 @@ export const authRoutes = [
         element: <Admin/>
     },
     {
-        path: USER_PAGE_ROUTER,
-        element: <UserPage/>
+        path: MY_COLLECTIONS_ROUTER,
+        element: <MyCollections/>
     }
 ];
 
 export const publicRoutes = [
+    {
+        path: HOME,
+        element: <Home/>
+    },
     {
         path: COLLECTION_ROUTER,
         element: <Collection/>
