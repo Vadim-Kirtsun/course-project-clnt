@@ -3,6 +3,7 @@ import { message, Upload } from 'antd';
 import { useState } from 'react';
 
 const getBase64 = (img, callback) => {
+    debugger;
     const reader = new FileReader();
     reader.addEventListener('load', () => callback(reader.result));
     reader.readAsDataURL(img);
@@ -24,9 +25,9 @@ const beforeUpload = (file) => {
     return isJpgOrPng && isLt2M;
 };
 
-const UploadImage = () => {
+const UploadImage = ({imageUrl, setImageUrl}) => {
     const [loading, setLoading] = useState(false);
-    const [imageUrl, setImageUrl] = useState();
+
 
     const handleChange = (info) => {
         if (info.file.status === 'uploading') {

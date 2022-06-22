@@ -1,21 +1,31 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import { Button } from 'antd';
 import {Context} from "../index";
 import {useNavigate} from "react-router-dom";
-import {ADMIN_ROUTER, HOME, LOGIN_ROUTER, MY_COLLECTIONS_ROUTER} from "../utils/consts";
+import {ADMIN_ROUTER, HOME_ROUTER, LOGIN_ROUTER, MY_COLLECTIONS_ROUTER} from "../utils/consts";
+import {getUsers} from "../http/userApi";
 
 
 const NavBar = () => {
+    const [isAdmin, setIsAdmin] = useState(false);
     const {user} = useContext(Context);
-    const currentUserRole = user.getUser().role;
+    console.log(user.getUser().role);
     const navigate = useNavigate();
 
     const logOut = () => {
         user.setUser({});
         user.setIsAuth(false);
         localStorage.removeItem('token');
-        navigate(HOME, { replace: true })
+        navigate(HOME_ROUTER, { replace: true })
     }
+
+    useEffect(() => {
+        console.log('hello')
+         let currentRole = user.getUser().role;
+        if(currentRole === "Admin") {
+            setIsAdmin(true);
+        }
+    }, [user.isAuth]);
 
 
     return (
@@ -27,33 +37,35 @@ const NavBar = () => {
             {user.isAuth
                 ?
                 <nav className="ml-auto m-2">
-
-                    <Button onClick={() => navigate(MY_COLLECTIONS_ROUTER, { replace: true })}>My Collections</Button>
-                    {currentUserRole === "USER"?
-                    <button
-                        className="btn btn-outline-dark"
-                        type="submit"
-                        onClick={() => navigate(ADMIN_ROUTER, { replace: true })}
-                    >
-                        Админ панель
-                    </button>
-                        : <div></div>
+                    {isAdmin
+                        ?
+                        <Button
+                            type="primary" danger ghost
+                            onClick={() => navigate(ADMIN_ROUTER, { replace: true })}
+                        >
+                            Админ панель
+                        </Button>
+                        :
+                        <Button
+                            type="primary" danger ghost
+                            onClick={() => navigate(MY_COLLECTIONS_ROUTER, { replace: true })}
+                        >
+                            My Collections
+                        </Button>
                     }
-                    <button
-                        className="btn btn-outline-dark m-2"
-                        type="submit"
+                    <Button
+                        type="primary" danger ghost
                         onClick={() =>logOut()}
                     >
                         Выйти
-                    </button>
+                    </Button>
                 </nav>
                 :
                 <nav className="ml-auto m-2">
-                    <button
-                        className="btn btn-outline-dark"
-                        type="submit"
+                    <Button
+                        type="primary" danger ghost
                         onClick={() => navigate(LOGIN_ROUTER, { replace: true })}
-                    >Авторизация</button>
+                    >Авторизация</Button>
                 </nav>
             }
         </div>

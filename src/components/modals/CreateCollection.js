@@ -1,6 +1,5 @@
 import React, {useState} from 'react';
 import {
-    Button,
     Form,
     Input,
     Select,
@@ -8,12 +7,21 @@ import {
 } from 'antd';
 import TextArea from "antd/es/input/TextArea";
 import UploadImage from "../UploadImage";
+import AddField from "../AddField";
+import {login, registration} from "../../http/userApi";
+import {HOME_ROUTER} from "../../utils/consts";
+import {createCollection} from "../../http/collectionApi";
+
+
 
 const CreateCollection = ({visible, setVisible}) => {
-    const subjects = ["airplane", "car", "moto"];
-    const types = ["Целочисленное", "Строковое", "Многострочный текст", "Чекбокс", "Дата"];
+    const { Option } = Select;
+    const subjects = ["Airplane", "Car", "Moto"];
     const [field, setField] = useState([]);
-    const [name, setName] = useState([]);
+    const [name, setName] = useState('');
+    const [description, setDescription] = useState('');
+    const [subject, setSubject] = useState('');
+    const [imageUrl, setImageUrl] = useState('');
 
     const addField = () => {
         setField([...field, {id: Date.now(), title: ''}])
@@ -21,19 +29,33 @@ const CreateCollection = ({visible, setVisible}) => {
     const removeField = (id) => {
         setField(field.filter(f => f.id !== id))
     }
-    const hideModal = () => {
+    const hideModal = (e) => {
+        e.preventDefault()
         setVisible(false);
     };
+
+    const submitCollection = async (e) => {
+        e.preventDefault()
+        debugger
+        const data = await createCollection({name, description, subject});
+        setVisible(false);
+    };
+
     const [componentSize, setComponentSize] = useState('default');
 
     const onFormLayoutChange = ({ size }) => {
         setComponentSize(size);
     };
+
+    const handleChange = (value) => {
+        setSubject(value);
+    };
+
     return (
         <Modal
             title="Add New Collection"
             visible={visible}
-            onOk={hideModal}
+            onOk={submitCollection}
             onCancel={hideModal}
         >
             <Form
@@ -51,24 +73,35 @@ const CreateCollection = ({visible, setVisible}) => {
             size={componentSize}
             >
             <Form.Item label="Name">
-            <Input value={name}
-                   onChange={(e) => setName(e.target.value)}/>
+            <Input
+                value={name}
+                onChange={e => setName(e.target.value)}
+            />
             </Form.Item>
             <Form.Item label="Description">
-            <TextArea rows={4} />
+            <TextArea
+                rows={4}
+                value={description}
+                onChange={e => setDescription(e.target.value)}
+            />
             </Form.Item>
             <Form.Item label="Subject">
-            <Select>
-            <Select.Option value="airplane">Airplane</Select.Option>
-            <Select.Option value="car">Car</Select.Option>
-            <Select.Option value="moto">Moto</Select.Option>
-            </Select>
+                <Select
+                    style={{
+                        width: 120,
+                    }}
+                    onChange={handleChange}
+                >
+                    {subjects.map(subject =>
+                        <Option key={subject} value={subject}>{subject}</Option>
+                    )}
+                </Select>
             </Form.Item>
             <Form.Item label="Image">
-                <UploadImage/>
+                <UploadImage imageUrl={imageUrl} setImageUrl={setImageUrl}/>
             </Form.Item>
-            <Form.Item label="AdditionalItems">
-
+            <Form.Item label="AddField">
+                <AddField field={field} setField={setField}/>
             </Form.Item>
             </Form>
 

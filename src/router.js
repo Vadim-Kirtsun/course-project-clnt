@@ -1,6 +1,6 @@
 import Admin from "./pages/Admin";
 import {
-    HOME,
+    HOME_ROUTER,
     ADMIN_ROUTER,
     COLLECTION_ROUTER,
     ITEM_ROUTER,
@@ -23,12 +23,24 @@ export const authRoutes = [
     {
         path: MY_COLLECTIONS_ROUTER,
         element: <MyCollections/>
+    },
+    {
+        path: HOME_ROUTER,
+        element: <Home/>
+    },
+    {
+        path: COLLECTION_ROUTER,
+        element: <Collection/>
+    },
+    {
+        path: ITEM_ROUTER,
+        element: <Item/>
     }
 ];
 
 export const publicRoutes = [
     {
-        path: HOME,
+        path: HOME_ROUTER,
         element: <Home/>
     },
     {

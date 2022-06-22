@@ -9,39 +9,33 @@ const columns = [
     {
         title: 'Name',
         dataIndex: 'name',
-        key: 'name',
-        render: (text) => <a>{text}</a>,
-        width: 150,
+        key: "name"
     },
     {
         title: 'Description',
         dataIndex: 'description',
-        key: 'description',
-        ellipsis: true,
+        key:"description"
     },
     {
         title: 'Subject',
         dataIndex: 'subject',
-        key: 'address 1',
-        ellipsis: true,
+        key:"subject"
     },
     {
         title: 'Image',
         dataIndex: 'image',
-        key: 'address 2',
-        ellipsis: true,
+        key:"image"
     },
     {
         title: 'Additional Fields',
         dataIndex: 'additional_fields',
-        key: 'address 3',
-        ellipsis: true,
-    },
+        key:"additional_fields"
+    }    ,
     {
         title: 'Actions',
         dataIndex: 'actions',
-        key: 'action',
-    },
+        key:"actions"
+    }
 ];
 
 const MyCollections = () => {
@@ -60,21 +54,20 @@ const MyCollections = () => {
         alert("delete collection:" + id);
     }
 
-    const actionButton = (id) => {
-        return  [<EditOutlined onClick={() => editCollection(id)} style={{ fontSize: '20px', color: '#08c', margin: '0 10px'}}/>,
-            <DeleteOutlined onClick={() => deleteCollection(id)} style={{ fontSize: '20px', color: '#08c' }}/> ];
-    }
-
     useEffect(() => {
         fetchCollections().then(data => {
-            debugger
             if (data.length > 0){
                 const results= data.map(row => ({
-                    key: row.id,
+                    id: row.id,
                     name: row.name,
                     description: row.description,
+                    subject: row.subject,
                     image: row.image ? 'Yes' : 'No',
-                    actions: actionButton(row.id, row.role)
+                    actions:
+                        <div>
+                            <EditOutlined onClick={() => editCollection(row.id)} style={{ fontSize: '20px', color: '#08c', margin: '0 10px'}}/>
+                            <DeleteOutlined onClick={() => deleteCollection(row.id)} style={{ fontSize: '20px', color: '#08c' }}/>
+                        </div>
                 }));
                 setMyCollection(results);
             } else {
@@ -94,9 +87,8 @@ const MyCollections = () => {
                         Add New Collection
                     </Button>
                 </div>
-                <Table columns={columns} dataSource={myCollection} />
+                <Table rowKey={obj => obj.id} columns={columns} dataSource={myCollection} />
             </div>
-
             <CreateCollection visible={visible} setVisible={setVisible}/>
         </div>
 

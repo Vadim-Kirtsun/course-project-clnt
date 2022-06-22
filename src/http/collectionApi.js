@@ -1,7 +1,7 @@
 import {$authHost, $host} from "./index";
 
 export const createCollection = async (collection) => {
-    const {data} = await $authHost.post('api/collection', collection);
+    const {data} = await $authHost.post('api/collection/create', collection);
     return data;
 };
 
