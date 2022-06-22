@@ -2,25 +2,19 @@ import React, {useState} from 'react';
 import {Form, Input, Select, Modal} from 'antd';
 import TextArea from "antd/es/input/TextArea";
 import UploadImage from "../UploadImage";
-import AddField from "../AddField";
 import {createCollection} from "../../http/collectionApi";
+import CreateField from "./CreateField";
 
 
 const CreateCollection = ({visible, setVisible}) => {
     const { Option } = Select;
     const subjects = ["Airplane", "Car", "Moto"];
-    const [field, setField] = useState([]);
     const [name, setName] = useState('');
     const [description, setDescription] = useState('');
     const [subject, setSubject] = useState('');
     const [imageUrl, setImageUrl] = useState('');
 
-    const addField = () => {
-        setField([...field, {id: Date.now(), title: ''}])
-    }
-    const removeField = (id) => {
-        setField(field.filter(f => f.id !== id))
-    }
+
     const hideModal = (e) => {
         e.preventDefault()
         setVisible(false);
@@ -28,7 +22,6 @@ const CreateCollection = ({visible, setVisible}) => {
 
     const submitCollection = async (e) => {
         e.preventDefault()
-        debugger
         const data = await createCollection({name, description, subject});
         setVisible(false);
     };
@@ -93,7 +86,7 @@ const CreateCollection = ({visible, setVisible}) => {
                 <UploadImage imageUrl={imageUrl} setImageUrl={setImageUrl}/>
             </Form.Item>
             </Form>
-            <AddField field={field} setField={setField}/>
+            <CreateField />
         </Modal>
     );
 };

@@ -26,7 +26,7 @@ const Auth = observer( () => {
             user.setIsAuth(true);
             navigate(HOME_ROUTER, { replace: true });
         } catch (e) {
-            alert(e.response.data.message);
+            alert('something went wrong');
         }
     }
 

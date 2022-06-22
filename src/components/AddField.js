@@ -2,21 +2,19 @@ import React from 'react';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import {Button, Form, Input, Select, Space} from 'antd';
 
-const AddField = ({field, setField}) => {
+const AddField = ({fields, setFields}) => {
     const { Option } = Select;
-    const types = ["Целочисленное", "Строковое", "Многострочный текст", "Чекбокс", "Дата"];
+    const types = ["NUMBER", "STRING", "TEXT", "CHECKBOX", "DATE"];
 
     const onFinish = (values) => {
         console.log('Received values of form:', values);
-    };
-
-    const handleChange = (value) => {
-        setField({...field, type: value});
+        debugger
+        setFields(values);
     };
 
     return (
         <Form name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off">
-            <Form.List name="users">
+            <Form.List name="additionalFields">
                 {(fields, { add, remove }) => (
                     <>
                         {fields.map(({ key, name, ...restField }) => (
@@ -30,7 +28,7 @@ const AddField = ({field, setField}) => {
                             >
                                 <Form.Item
                                     {...restField}
-                                    name={[name, 'first']}
+                                    name={[name, 'name']}
                                     rules={[
                                         {
                                             required: true,
@@ -38,19 +36,22 @@ const AddField = ({field, setField}) => {
                                         },
                                     ]}
                                 >
-                                    <Input
-                                        value={name}
-                                        onChange={e => setField({...field, name: e.target.value})}
-                                        placeholder="First Name"
-                                    />
+                                    <Input placeholder="First Name" />
                                 </Form.Item>
-                                <Form.Item label="Type">
+                                <Form.Item
+                                    {...restField}
+                                    name={[name, 'type']}
+                                    rules={[
+                                        {
+                                            required: true,
+                                            message: 'Missing last name',
+                                        },
+                                    ]}
+                                >
                                     <Select
-                                        defaultValue="Целочисленное"
                                         style={{
                                             width: 120,
                                         }}
-                                        onChange={handleChange}
                                     >
                                         {types.map(type =>
                                             <Option key={type} value={type}>{type}</Option>
@@ -68,6 +69,11 @@ const AddField = ({field, setField}) => {
                     </>
                 )}
             </Form.List>
+            <Form.Item>
+                <Button type="primary" htmlType="submit">
+                    Submit
+                </Button>
+            </Form.Item>
         </Form>
     );
 };
