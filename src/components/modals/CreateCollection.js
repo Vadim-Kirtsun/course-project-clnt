@@ -1,17 +1,9 @@
 import React, {useState} from 'react';
-import {
-    Form,
-    Input,
-    Select,
-    Modal
-} from 'antd';
+import {Form, Input, Select, Modal} from 'antd';
 import TextArea from "antd/es/input/TextArea";
 import UploadImage from "../UploadImage";
 import AddField from "../AddField";
-import {login, registration} from "../../http/userApi";
-import {HOME_ROUTER} from "../../utils/consts";
 import {createCollection} from "../../http/collectionApi";
-
 
 
 const CreateCollection = ({visible, setVisible}) => {
@@ -100,11 +92,8 @@ const CreateCollection = ({visible, setVisible}) => {
             <Form.Item label="Image">
                 <UploadImage imageUrl={imageUrl} setImageUrl={setImageUrl}/>
             </Form.Item>
-            <Form.Item label="AddField">
-                <AddField field={field} setField={setField}/>
-            </Form.Item>
             </Form>
-
+            <AddField field={field} setField={setField}/>
         </Modal>
     );
 };
