@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Form, Input, Select, Modal} from 'antd';
 import TextArea from "antd/es/input/TextArea";
 import UploadImage from "../UploadImage";
@@ -6,14 +6,15 @@ import {createCollection} from "../../http/collectionApi";
 import CreateField from "./CreateField";
 
 
-const CreateCollection = ({visible, setVisible}) => {
+const CreateCollection = ({currentEditCollection, visible, setVisible}) => {
     const { Option } = Select;
     const subjects = ["Airplane", "Car", "Moto"];
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-    const [subject, setSubject] = useState('');
-    const [imageUrl, setImageUrl] = useState('');
+    const [form, setForm] = useState({});
+    const [componentSize, setComponentSize] = useState('default');
 
+    if (currentEditCollection) {
+        console.log(currentEditCollection)
+    }
 
     const hideModal = (e) => {
         e.preventDefault()
@@ -21,19 +22,19 @@ const CreateCollection = ({visible, setVisible}) => {
     };
 
     const submitCollection = async (e) => {
+        debugger
         e.preventDefault()
-        const data = await createCollection({name, description, subject});
+        const data = await createCollection(form);
         setVisible(false);
     };
 
-    const [componentSize, setComponentSize] = useState('default');
+    useEffect(() => {
+        setForm(currentEditCollection)
+    },[currentEditCollection]);
+
 
     const onFormLayoutChange = ({ size }) => {
         setComponentSize(size);
-    };
-
-    const handleChange = (value) => {
-        setSubject(value);
     };
 
     return (
@@ -59,23 +60,24 @@ const CreateCollection = ({visible, setVisible}) => {
             >
             <Form.Item label="Name">
             <Input
-                value={name}
-                onChange={e => setName(e.target.value)}
+                value={form.name}
+                onChange={e => setForm({...form, name: e.target.value})}
             />
             </Form.Item>
             <Form.Item label="Description">
             <TextArea
                 rows={4}
-                value={description}
-                onChange={e => setDescription(e.target.value)}
+                value={form.description}
+                onChange={e => setForm({...form, description: e.target.value})}
             />
             </Form.Item>
             <Form.Item label="Subject">
                 <Select
+                    value ={form.subject}
                     style={{
                         width: 120,
                     }}
-                    onChange={handleChange}
+                    onChange={(value) => setForm({...form, subject: value})}
                 >
                     {subjects.map(subject =>
                         <Option key={subject} value={subject}>{subject}</Option>
@@ -83,7 +85,7 @@ const CreateCollection = ({visible, setVisible}) => {
                 </Select>
             </Form.Item>
             <Form.Item label="Image">
-                <UploadImage imageUrl={imageUrl} setImageUrl={setImageUrl}/>
+                <UploadImage form={form} setForm={setForm}/>
             </Form.Item>
             </Form>
             <CreateField />

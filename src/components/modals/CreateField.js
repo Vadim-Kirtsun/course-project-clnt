@@ -1,23 +1,23 @@
-import React, {useState} from 'react';
+import React, {useEffect} from 'react';
 import {Button, Form, Input, Modal, Select, Space} from "antd";
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
 import {saveAdditionalFields} from "../../http/additionaFieldsApi";
 
-const CreateField = ({collectionId, visible, setVisible}) => {
+const CreateField = ({collectionId, currentAddFields, visible, setVisible}) => {
     const { Option } = Select;
-    const [fields, setFields] = useState([]);
     const types = ["NUMBER", "STRING", "TEXT", "BOOLEAN", "DATE"];
     const [form] = Form.useForm();
 
     const onFinish = async (additionalFields) => {
-        console.log('Received values of form:', additionalFields);
-         const data = await saveAdditionalFields(collectionId, additionalFields);
+        const data = await saveAdditionalFields(collectionId, additionalFields.additionalFields);
+        setVisible(false);
     };
 
     const hideModal = (e) => {
         e.preventDefault()
         setVisible(false);
     };
+    useEffect(() => form.resetFields(), [currentAddFields]);
 
     return (
         <Modal
@@ -26,8 +26,8 @@ const CreateField = ({collectionId, visible, setVisible}) => {
             onOk={form.submit}
             onCancel={hideModal}
         >
-            <Form form={form} name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off">
-                <Form.List name="additionalFields">
+            <Form form={form} name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off" initialValues={currentAddFields}>
+                <Form.List name="additionalFields" initialValue={currentAddFields}>
                     {(fields, { add, remove }) => (
                         <>
                             {fields.map(({ key, name, ...restField }) => (

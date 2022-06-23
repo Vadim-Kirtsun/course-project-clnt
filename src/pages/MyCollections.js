@@ -3,7 +3,6 @@ import CreateCollection from "../components/modals/CreateCollection";
 import {fetchCollections} from "../http/collectionApi";
 import {Button, Table} from 'antd';
 import {EditOutlined, DeleteOutlined, DiffOutlined} from '@ant-design/icons';
-import AddField from "../components/AddField";
 import CreateField from "../components/modals/CreateField";
 
 
@@ -42,39 +41,45 @@ const columns = [
 
 const MyCollections = () => {
     const [myCollection, setMyCollection] = useState([]);
+    const [currentAddFields, setCurrentAddFields] = useState([]);
     const [currentCollectionId, setCurrentCollectionId] = useState('');
     const [visible, setVisible] = useState(false);
     const [visibleField, setVisibleField] = useState(false);
+    const [currentEditCollection, setCurrentEditCollection] = useState({});
+
 
     const showModal = () => {
+        setCurrentCollectionId('');
+        setCurrentEditCollection({});
         setVisible(true);
     };
 
-    const editAdditionField = (id) => {
+
+    const editAdditionField = (id, addFields) => {
         setVisibleField(true);
         setCurrentCollectionId(id);
+        setCurrentAddFields(addFields);
     }
 
-    const editCollection = (id) =>{
-        alert("edit collection:" + id);
+    const editCollection = (row) =>{
+        setCurrentEditCollection(row);
+        setVisible(true);
     }
 
     const deleteCollection = (id) =>{
         alert("delete collection:" + id);
     }
+
     const combineAddFields = (addFields) => {
-    debugger
-        const temp = addFields.map(i => {
-            const arr = [];
-        arr.push(i.name)
-        arr.join(', ');
-        return arr;
+        const arr = [];
+        addFields.forEach(i => {
+        arr.push(i.name);
+    })
+        return arr.join(', ');
     }
-    )}
 
     useEffect(() => {
         fetchCollections().then(data => {
-            debugger
             if (data.length > 0){
                 const results= data.map(row => ({
                     id: row.id,
@@ -85,8 +90,8 @@ const MyCollections = () => {
                     additional_fields: combineAddFields(row.add_fields),
                     actions:
                         <div>
-                            <DiffOutlined onClick={() => editAdditionField(row.id)} style={{ fontSize: '20px', color: '#08c', margin: '0 10px'}}/>
-                            <EditOutlined onClick={() => editCollection(row.id)} style={{ fontSize: '20px', color: '#08c', margin: '0 10px'}}/>
+                            <DiffOutlined onClick={() => editAdditionField(row.id, row.add_fields)} style={{ fontSize: '20px', color: '#08c', margin: '0 10px'}}/>
+                            <EditOutlined onClick={() => editCollection(row)} style={{ fontSize: '20px', color: '#08c', margin: '0 10px'}}/>
                             <DeleteOutlined onClick={() => deleteCollection(row.id)} style={{ fontSize: '20px', color: '#08c' }}/>
                         </div>
                 }));
@@ -95,7 +100,7 @@ const MyCollections = () => {
                 alert(data.message);
             }}
         );
-    }, [])
+    }, [visible, visibleField])
 
     return (
         <div>
@@ -110,8 +115,16 @@ const MyCollections = () => {
                 </div>
                 <Table rowKey={obj => obj.id} columns={columns} dataSource={myCollection} />
             </div>
-            <CreateCollection visible={visible} setVisible={setVisible}/>
-            <CreateField collectionId={currentCollectionId} visible={visibleField} setVisible={setVisibleField}/>
+            <CreateCollection
+                currentEditCollection={currentEditCollection}
+                visible={visible} setVisible={setVisible}
+            />
+            <CreateField
+                collectionId={currentCollectionId}
+                currentAddFields={currentAddFields}
+                visible={visibleField}
+                setVisible={setVisibleField}
+            />
         </div>
 
 

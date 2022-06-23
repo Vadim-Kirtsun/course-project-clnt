@@ -25,7 +25,7 @@ const beforeUpload = (file) => {
     return isJpgOrPng && isLt2M;
 };
 
-const UploadImage = ({imageUrl, setImageUrl}) => {
+const UploadImage = ({form, setForm}) => {
     const [loading, setLoading] = useState(false);
 
 
@@ -39,7 +39,7 @@ const UploadImage = ({imageUrl, setImageUrl}) => {
             // Get this url from response in real world.
             getBase64(info.file.originFileObj, (url) => {
                 setLoading(false);
-                setImageUrl(url);
+                setForm({...form, image: url});
             });
         }
     };
@@ -66,9 +66,9 @@ const UploadImage = ({imageUrl, setImageUrl}) => {
             beforeUpload={beforeUpload}
             onChange={handleChange}
         >
-            {imageUrl ? (
+            {form.image ? (
                 <img
-                    src={imageUrl}
+                    src={form.image}
                     alt="avatar"
                     style={{
                         width: '100%',
