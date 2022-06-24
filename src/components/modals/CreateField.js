@@ -20,8 +20,8 @@ const CreateField = ({collectionId, currentAddFields, visible, setVisible}) => {
     useEffect(() => form.resetFields(), [currentAddFields]);
 
     return (
-        <Modal
-            title="Manage Additional Fields"
+        <Modal forceRender
+               title="Manage Additional Fields"
             visible={visible}
             onOk={form.submit}
             onCancel={hideModal}
