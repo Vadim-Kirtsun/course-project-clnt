@@ -7,10 +7,11 @@ export const createCollection = async (collection) => {
 
 export const fetchCollections = async () => {
     const {data} = await $host.get('api/collection');
-    console.log(data)
     return data;
 };
 
-export const removeCollection = async () => {
-
+export const removeCollection = async (id) => {
+    debugger
+    const {data} = await $host.put('api/collection/delete', {id:id});
+    return data;
 };

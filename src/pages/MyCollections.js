@@ -1,10 +1,9 @@
 import React, {useEffect, useState} from 'react';
 import CreateCollection from "../components/modals/CreateCollection";
-import {fetchCollections} from "../http/collectionApi";
+import {fetchCollections, removeCollection} from "../http/collectionApi";
 import {Button, Table} from 'antd';
 import {EditOutlined, DeleteOutlined, DiffOutlined} from '@ant-design/icons';
 import CreateField from "../components/modals/CreateField";
-
 
 const columns = [
     {
@@ -46,7 +45,7 @@ const MyCollections = () => {
     const [visible, setVisible] = useState(false);
     const [visibleField, setVisibleField] = useState(false);
     const [currentEditCollection, setCurrentEditCollection] = useState({});
-
+    const [changeCount, setChangeCount] = useState(0);
 
     const showModal = () => {
         setCurrentCollectionId('');
@@ -54,7 +53,13 @@ const MyCollections = () => {
         setVisible(true);
     };
 
-
+    const combineAddFields = (addFields) => {
+        const arr = [];
+        addFields.forEach(i => {
+            arr.push(i.name);
+        })
+        return arr.join(', ');
+    }
     const editAdditionField = (id, addFields) => {
         setVisibleField(true);
         setCurrentCollectionId(id);
@@ -65,17 +70,10 @@ const MyCollections = () => {
         setCurrentEditCollection(row);
         setVisible(true);
     }
-
-    const deleteCollection = (id) =>{
-        alert("delete collection:" + id);
-    }
-
-    const combineAddFields = (addFields) => {
-        const arr = [];
-        addFields.forEach(i => {
-        arr.push(i.name);
-    })
-        return arr.join(', ');
+    const deleteCollection = async (id) =>{
+        const data = await removeCollection(id);
+        console.log(data)
+        setChangeCount(changeCount + 1);
     }
 
     useEffect(() => {
@@ -100,7 +98,7 @@ const MyCollections = () => {
                 alert(data.message);
             }}
         );
-    }, [visible, visibleField])
+    }, [visible, visibleField, changeCount])
 
     return (
         <div>
@@ -126,8 +124,6 @@ const MyCollections = () => {
                 setVisible={setVisibleField}
             />
         </div>
-
-
     );
 };
 

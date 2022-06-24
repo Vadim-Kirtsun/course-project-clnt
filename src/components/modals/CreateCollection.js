@@ -12,9 +12,6 @@ const CreateCollection = ({currentEditCollection, visible, setVisible}) => {
     const [form, setForm] = useState({});
     const [componentSize, setComponentSize] = useState('default');
 
-    if (currentEditCollection) {
-        console.log(currentEditCollection)
-    }
 
     const hideModal = (e) => {
         e.preventDefault()
@@ -22,7 +19,6 @@ const CreateCollection = ({currentEditCollection, visible, setVisible}) => {
     };
 
     const submitCollection = async (e) => {
-        debugger
         e.preventDefault()
         const data = await createCollection(form);
         setVisible(false);
