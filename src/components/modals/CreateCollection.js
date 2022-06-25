@@ -35,7 +35,7 @@ const CreateCollection = ({currentEditCollection, visible, setVisible}) => {
 
     return (
         <Modal
-            title="Add New CollectionId"
+            title="Add New Collection"
             visible={visible}
             onOk={submitCollection}
             onCancel={hideModal}

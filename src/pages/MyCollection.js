@@ -3,11 +3,13 @@ import TableItems from "../components/TableItems";
 import {Button, Tag} from "antd";
 import {useParams} from "react-router-dom";
 import {fetchItemsById} from "../http/collectionApi";
-
+import CreateItem from "../components/modals/CreateItem";
 
 const MyCollection = () => {
     const params = useParams();
+    const [visible, setVisible] = useState(false);
     const [collection, setCollection] = useState({});
+    const [addFieldValues, setAddFieldValues] = useState([]);
     const [columns, setColumns] = useState([
         {
             title: 'Id',
@@ -43,6 +45,10 @@ const MyCollection = () => {
         },
     ]);
 
+    const showModal = () => {
+        setVisible(true);
+    };
+
     const prepareAdditionalColumns = (additionalFields) =>{
         let array = [];
         additionalFields.forEach((item) => {
@@ -54,17 +60,24 @@ const MyCollection = () => {
         })
         return array;
     }
-
-    const showModal = () => {
-        alert('modal');
-    };
-
+    const prepareAdditionalData = (additionalFields) =>{
+        let array = [];
+        additionalFields.forEach((item) => {
+            array.push({
+                key: item.id,
+                id: item.id,
+                name: item.name,
+                tags: ['nice', 'developer'],
+            })
+        })
+        return array;
+    }
 
     useEffect(() => {
         fetchItemsById(params.id).then(data => {
+            setColumns(columns.concat(prepareAdditionalColumns(data.add_fields)));
+            setAddFieldValues(prepareAdditionalData(data.items));
             setCollection(data);
-            const addfields = prepareAdditionalColumns(data.add_fields);
-            setColumns(columns.concat(addfields));
         })
 
     }, [])
@@ -79,7 +92,9 @@ const MyCollection = () => {
                     Add New Item
                 </Button>
             </div>
-            <TableItems columns={columns}/>
+            <TableItems columns={columns} data={addFieldValues}/>
+
+            <CreateItem collectionId={collection.id} visible={visible} setVisible={setVisible}/>
         </div>
     );
 };
