@@ -2,7 +2,7 @@ import React, {useContext, useEffect, useState} from 'react';
 import { Button } from 'antd';
 import {Context} from "../index";
 import {useNavigate} from "react-router-dom";
-import {ADMIN_ROUTER, HOME_ROUTER, LOGIN_ROUTER, MY_COLLECTIONS_ROUTER} from "../utils/consts";
+import {ADMIN_ROUTER, COLLECTION_ROUTER, LOGIN_ROUTER, MY_COLLECTIONS_ROUTER} from "../utils/consts";
 import {getUsers} from "../http/userApi";
 
 
@@ -16,7 +16,7 @@ const NavBar = () => {
         user.setUser({});
         user.setIsAuth(false);
         localStorage.removeItem('token');
-        navigate(HOME_ROUTER, { replace: true })
+        navigate(COLLECTION_ROUTER, { replace: true })
     }
 
     useEffect(() => {

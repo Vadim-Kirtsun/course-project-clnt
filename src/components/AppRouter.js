@@ -20,7 +20,7 @@ const AppRouter = observer(() => {
                 )}
                     <Route
                     path="*"
-                    element={<Navigate to="/home" replace />}
+                    element={<Navigate to="/collection" replace />}
                     />
                 </Routes>
 
@@ -34,7 +34,7 @@ const AppRouter = observer(() => {
                 )}
                     <Route
                     path="*"
-                    element={<Navigate to="/home" replace />}
+                    element={<Navigate to="/collection" replace />}
                     />
                 </Routes>
     );

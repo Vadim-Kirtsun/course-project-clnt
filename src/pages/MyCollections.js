@@ -4,6 +4,8 @@ import {fetchCollections, removeCollection} from "../http/collectionApi";
 import {Button, Table} from 'antd';
 import {EditOutlined, DeleteOutlined, DiffOutlined} from '@ant-design/icons';
 import CreateField from "../components/modals/CreateField";
+import {MY_COLLECTIONS_ROUTER} from "../utils/consts";
+import {NavLink} from "react-router-dom";
 
 const columns = [
     {
@@ -72,7 +74,6 @@ const MyCollections = () => {
     }
     const deleteCollection = async (id) =>{
         const data = await removeCollection(id);
-        console.log(data)
         setChangeCount(changeCount + 1);
     }
 
@@ -81,7 +82,7 @@ const MyCollections = () => {
             if (data.length > 0){
                 const results= data.map(row => ({
                     id: row.id,
-                    name: row.name,
+                    name: <NavLink to={`${MY_COLLECTIONS_ROUTER}/${row.id}`} key={row.name}>{row.name}</NavLink>,
                     description: row.description,
                     subject: row.subject,
                     image: row.image ? 'Yes' : 'No',

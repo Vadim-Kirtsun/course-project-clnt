@@ -1,18 +1,20 @@
 import Admin from "./pages/Admin";
 import {
-    HOME_ROUTER,
     ADMIN_ROUTER,
     COLLECTION_ROUTER,
     ITEM_ROUTER,
     LOGIN_ROUTER,
     REGISTRATION_ROUTER,
-    MY_COLLECTIONS_ROUTER
+    MY_COLLECTIONS_ROUTER,
+    COLLECTION_ID_ROUTER,
+    MY_COLLECTIONS_ID_ROUTER
 } from "./utils/consts";
-import Collection from "./pages/Collection";
+import CollectionId from "./pages/CollectionId";
 import Item from "./pages/Item";
 import Auth from "./pages/Auth";
 import MyCollections from "./pages/MyCollections";
-import Home from "./components/Home";
+import Collection from "./pages/Collection";
+import MyCollection from "./pages/MyCollection";
 
 
 export const authRoutes = [
@@ -25,12 +27,16 @@ export const authRoutes = [
         element: <MyCollections/>
     },
     {
-        path: HOME_ROUTER,
-        element: <Home/>
+        path: MY_COLLECTIONS_ID_ROUTER,
+        element: <MyCollection/>
     },
     {
         path: COLLECTION_ROUTER,
         element: <Collection/>
+    },
+    {
+        path: COLLECTION_ID_ROUTER,
+        element: <CollectionId/>
     },
     {
         path: ITEM_ROUTER,
@@ -40,12 +46,12 @@ export const authRoutes = [
 
 export const publicRoutes = [
     {
-        path: HOME_ROUTER,
-        element: <Home/>
-    },
-    {
         path: COLLECTION_ROUTER,
         element: <Collection/>
+    },
+    {
+        path: COLLECTION_ID_ROUTER,
+        element: <CollectionId/>
     },
     {
         path: ITEM_ROUTER,

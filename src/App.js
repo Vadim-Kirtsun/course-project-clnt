@@ -5,8 +5,8 @@ import AppRouter from "./components/AppRouter";
 import NavBar from "./components/NavBar"
 import {observer} from "mobx-react-lite";
 import {Context} from "./index";
-import {Spinner} from "react-bootstrap";
 import {check} from "./http/userApi";
+import {Spin} from "antd";
 
 
 const App = observer(() => {
@@ -22,7 +22,7 @@ const App = observer(() => {
     }, [user])
 
     if (loading) {
-        return <Spinner animation={"grow"}/>
+        return <Spin size="large" />
     }
 
   return (

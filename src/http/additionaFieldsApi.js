@@ -2,8 +2,7 @@ import {$authHost, $host} from "./index";
 
 export const saveAdditionalFields = async (collectionId, additionalFields) => {
     let dataLog;
-    const temp = additionalFields;
-    for (const additionalField of temp) {
+    for (const additionalField of additionalFields) {
         const {data} = await $authHost.post('api/add_field/create', {collectionId, additionalField})
     }
     return  dataLog;
@@ -15,6 +14,7 @@ export const getAdditionalFields = async () => {
     return data;
 };
 
-export const removeCollection = async () => {
-
+export const deleteAdditionalFields = async (id) => {
+    const {data} = await $host.put('api/add_field/delete', {id: id});
+    return data;
 };

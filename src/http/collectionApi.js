@@ -14,3 +14,8 @@ export const removeCollection = async (id) => {
     const {data} = await $host.put('api/collection/delete', {id: id});
     return data;
 };
+
+export const fetchItemsById = async (id) => {
+    const {data} = await $host.get('api/collection/' + id);
+    return data;
+};

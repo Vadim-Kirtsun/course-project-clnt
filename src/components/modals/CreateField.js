@@ -1,14 +1,20 @@
-import React, {useEffect} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Button, Form, Input, Modal, Select, Space} from "antd";
 import {MinusCircleOutlined, PlusOutlined} from "@ant-design/icons";
-import {saveAdditionalFields} from "../../http/additionaFieldsApi";
+import {deleteAdditionalFields, saveAdditionalFields} from "../../http/additionaFieldsApi";
 
 const CreateField = ({collectionId, currentAddFields, visible, setVisible}) => {
     const { Option } = Select;
     const types = ["NUMBER", "STRING", "TEXT", "BOOLEAN", "DATE"];
     const [form] = Form.useForm();
+    const [prev, setPrev] = useState([]);
+
 
     const onFinish = async (additionalFields) => {
+        const prevIds = currentAddFields.map(elem => elem.id);
+        const currentIds = additionalFields.additionalFields.map(elem => elem.id);
+        let difference = prevIds.filter(x => !currentIds.includes(x));
+        const deleteId = await deleteAdditionalFields(difference);
         const data = await saveAdditionalFields(collectionId, additionalFields.additionalFields);
         setVisible(false);
     };
@@ -20,8 +26,9 @@ const CreateField = ({collectionId, currentAddFields, visible, setVisible}) => {
     useEffect(() => form.resetFields(), [currentAddFields]);
 
     return (
-        <Modal forceRender
-               title="Manage Additional Fields"
+        <Modal
+            forceRender
+            title="Manage Additional Fields"
             visible={visible}
             onOk={form.submit}
             onCancel={hideModal}
