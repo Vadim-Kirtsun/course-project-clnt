@@ -1,7 +1,5 @@
 import React, {useState} from 'react';
-import {Form, Input, Modal, Select} from "antd";
-import TextArea from "antd/es/input/TextArea";
-import {createCollection} from "../../http/collectionApi";
+import {Form, Input, Modal, Select, Tag} from "antd";
 import {createItem} from "../../http/itemApi";
 
 const CreateItem = ({collectionId, visible, setVisible}) => {
@@ -13,10 +11,52 @@ const CreateItem = ({collectionId, visible, setVisible}) => {
         setComponentSize(size);
     };
     const submitItem = async (e) => {
+        debugger;
         e.preventDefault()
-        const data = await createItem({...form, collectionId: collectionId});
+        const newTags = form.tags.map(t =>({name: t}));
+        const data = await createItem({name:form.name, tags:newTags, collectionId: collectionId});
         setVisible(false);
     };
+
+    const options = [
+        {
+            value: 'gold',
+        },
+        {
+            value: 'lime',
+        },
+        {
+            value: 'green',
+        },
+        {
+            value: 'cyan',
+        },
+    ];
+
+    const tagRender = (props) => {
+        const { label, value, closable, onClose } = props;
+
+        const onPreventMouseDown = (event) => {
+            event.preventDefault();
+            event.stopPropagation();
+        };
+
+        return (
+            <Tag
+                color={value}
+                onMouseDown={onPreventMouseDown}
+                closable={closable}
+                onClose={onClose}
+                style={{
+                    marginRight: 3,
+                }}
+            >
+                {label}
+            </Tag>
+        );
+    };
+
+
     return (
         <Modal
             title="Add New Item"
@@ -45,10 +85,17 @@ const CreateItem = ({collectionId, visible, setVisible}) => {
                     />
                 </Form.Item>
                 <Form.Item label="Tags">
-                    <TextArea
-                        rows={4}
+                    <Select
+                        mode="multiple"
+                        showArrow
+                        tagRender={tagRender}
+                        defaultValue={form.tags}
                         value={form.tags}
-                        onChange={e => setForm({...form, tags: e.target.value})}
+                        onChange={value => setForm({...form, tags: value})}
+                        style={{
+                            width: '100%',
+                        }}
+                        options={options}
                     />
                 </Form.Item>
                 {/*<Form.Item label="Subject">
