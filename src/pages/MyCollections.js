@@ -36,7 +36,8 @@ const columns = [
     {
         title: 'Actions',
         dataIndex: 'actions',
-        key:"actions"
+        key:"actions",
+        width: '120px',
     }
 ];
 
@@ -89,7 +90,7 @@ const MyCollections = () => {
                     additional_fields: combineAddFields(row.add_fields),
                     actions:
                         <div>
-                            <DiffOutlined onClick={() => editAdditionField(row.id, row.add_fields)} style={{ fontSize: '20px', color: '#08c', margin: '0 10px'}}/>
+                            <DiffOutlined onClick={() => editAdditionField(row.id, row.add_fields)} style={{ fontSize: '20px', color: '#08c'}}/>
                             <EditOutlined onClick={() => editCollection(row)} style={{ fontSize: '20px', color: '#08c', margin: '0 10px'}}/>
                             <DeleteOutlined onClick={() => deleteCollection(row.id)} style={{ fontSize: '20px', color: '#08c' }}/>
                         </div>
