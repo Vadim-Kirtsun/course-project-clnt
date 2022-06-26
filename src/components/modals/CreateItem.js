@@ -1,37 +1,29 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import {Form, Input, Modal, Select, Tag} from "antd";
-import {createItem} from "../../http/itemApi";
+import {createItem, fetchTags} from "../../http/itemApi";
 
 const CreateItem = ({collectionId, visible, setVisible}) => {
     const { Option } = Select;
     const [componentSize, setComponentSize] = useState('default');
     const [form, setForm] = useState({});
+    const [options, setOptions] = useState([]);
 
     const onFormLayoutChange = ({ size }) => {
         setComponentSize(size);
     };
     const submitItem = async (e) => {
-        debugger;
         e.preventDefault()
         const newTags = form.tags.map(t =>({name: t}));
         const data = await createItem({name:form.name, tags:newTags, collectionId: collectionId});
         setVisible(false);
     };
 
-    const options = [
-        {
-            value: 'gold',
-        },
-        {
-            value: 'lime',
-        },
-        {
-            value: 'green',
-        },
-        {
-            value: 'cyan',
-        },
-    ];
+    useEffect(() => {
+        fetchTags().then(data => {
+            const tagOptions = data.map(t => ({ value: t.name}));
+            setOptions(tagOptions);
+        })
+    },[])
 
     const tagRender = (props) => {
         const { label, value, closable, onClose } = props;
@@ -43,7 +35,6 @@ const CreateItem = ({collectionId, visible, setVisible}) => {
 
         return (
             <Tag
-                color={value}
                 onMouseDown={onPreventMouseDown}
                 closable={closable}
                 onClose={onClose}
@@ -86,7 +77,7 @@ const CreateItem = ({collectionId, visible, setVisible}) => {
                 </Form.Item>
                 <Form.Item label="Tags">
                     <Select
-                        mode="multiple"
+                        mode="tags"
                         showArrow
                         tagRender={tagRender}
                         defaultValue={form.tags}

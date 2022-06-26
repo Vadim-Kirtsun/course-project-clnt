@@ -10,7 +10,8 @@ const MyCollection = () => {
     const [visible, setVisible] = useState(false);
     const [collection, setCollection] = useState({});
     const [addFieldValues, setAddFieldValues] = useState([]);
-    const [columns, setColumns] = useState([
+    const [columns, setColumns] = useState([]);
+    const initialColumns = [
         {
             title: 'Id',
             dataIndex: 'id',
@@ -21,29 +22,7 @@ const MyCollection = () => {
             dataIndex: 'name',
             key: 'name',
         },
-        {
-            title: 'Tags',
-            key: 'tags',
-            dataIndex: 'tags',
-            render: (_, { tags }) => (
-                <>
-                    {tags.map((tag) => {
-                        let color = tag.length > 5 ? 'geekblue' : 'green';
-
-                        if (tag === 'loser') {
-                            color = 'volcano';
-                        }
-
-                        return (
-                            <Tag color={color} key={tag}>
-                                {tag.toUpperCase()}
-                            </Tag>
-                        );
-                    })}
-                </>
-            ),
-        },
-    ]);
+    ];
 
     const showModal = () => {
         setVisible(true);
@@ -58,6 +37,22 @@ const MyCollection = () => {
                 key: item.name,
             })
         })
+        array.push({
+            title: 'Tags',
+            key: 'tags',
+            dataIndex: 'tags',
+            render: (_, { tags }) => (
+                <>
+                    {tags.map((tag) => {
+                        return (
+                            <Tag key={tag}>
+                                {tag}
+                            </Tag>
+                        );
+                    })}
+                </>
+            ),
+        })
         return array;
     }
     const prepareAdditionalData = (additionalFields) =>{
@@ -67,7 +62,7 @@ const MyCollection = () => {
                 key: item.id,
                 id: item.id,
                 name: item.name,
-                tags: ['nice', 'developer'],
+                tags: (item.tags !== undefined) ? item.tags.map(t => t.name) : [],
             })
         })
         return array;
@@ -75,12 +70,11 @@ const MyCollection = () => {
 
     useEffect(() => {
         fetchItemsById(params.id).then(data => {
-            setColumns(columns.concat(prepareAdditionalColumns(data.add_fields)));
+            setColumns(initialColumns.concat(prepareAdditionalColumns(data.add_fields)));
             setAddFieldValues(prepareAdditionalData(data.items));
             setCollection(data);
         })
-
-    }, [])
+    }, [visible])
 
     return (
         <div className="text-center mt-3">
