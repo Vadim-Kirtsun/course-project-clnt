@@ -1,47 +1,31 @@
-import {LoadingOutlined, PlusOutlined} from '@ant-design/icons';
-import { message, Upload } from 'antd';
-import { useState } from 'react';
+import React, {useState} from 'react';
+import { LoadingOutlined, PlusOutlined } from '@ant-design/icons';
+import { Upload } from 'antd';
+import Axios from 'axios';
 
-const getBase64 = (img, callback) => {
-    debugger;
-    const reader = new FileReader();
-    reader.addEventListener('load', () => callback(reader.result));
-    reader.readAsDataURL(img);
-};
-
-const beforeUpload = (file) => {
-    const isJpgOrPng = file.type === 'image/jpeg' || file.type === 'image/png';
-
-    if (!isJpgOrPng) {
-        message.error('You can only upload JPG/PNG file!');
-    }
-
-    const isLt2M = file.size / 1024 / 1024 < 2;
-
-    if (!isLt2M) {
-        message.error('Image must smaller than 2MB!');
-    }
-
-    return isJpgOrPng && isLt2M;
-};
-
-const UploadImage = ({form, setForm}) => {
+const UploadImage = ({imageUrl, setImageUrl}) => {
     const [loading, setLoading] = useState(false);
+    const [image, setImage] = useState('');
+    const uploadingUrl = "https://api.cloudinary.com/v1_1/vadim-kirtsun/image/upload";
 
-
-    const handleChange = (info) => {
-        if (info.file.status === 'uploading') {
-            setLoading(true);
-            return;
+    const uploadImage = (info) => {
+        if(image === undefined || image === ""){
+            setImage(info.file);
+        }else if (image.name == info.file.name){
+            return
+        }else{
+            setImage(info.file);
         }
+        setLoading(true);
+        const formData = new FormData();
+        formData.append("file", info.file.originFileObj);
+        formData.append("upload_preset", "wqsbiawq");
 
-        if (info.file.status === 'done') {
-            // Get this url from response in real world.
-            getBase64(info.file.originFileObj, (url) => {
-                setLoading(false);
-                setForm({...form, image: url});
-            });
-        }
+        Axios.post(uploadingUrl, formData)
+            .then((response) => {
+            setLoading(false);
+            setImageUrl(response.data.url);
+        });
     };
 
     const uploadButton = (
@@ -56,22 +40,22 @@ const UploadImage = ({form, setForm}) => {
             </div>
         </div>
     );
+
     return (
-        <Upload
+            <Upload
             name="avatar"
             listType="picture-card"
             className="avatar-uploader"
             showUploadList={false}
-            action="https://www.mocky.io/v2/5cc8019d300000980a055e76"
-            beforeUpload={beforeUpload}
-            onChange={handleChange}
+            onChange={uploadImage}
         >
-            {form.image ? (
+            {imageUrl ? (
                 <img
-                    src={form.image}
+                    src={imageUrl}
                     alt="avatar"
                     style={{
-                        width: '100%',
+                        'maxHeight': '100px',
+                        'maxWidth': '100px',
                     }}
                 />
             ) : (
@@ -82,3 +66,4 @@ const UploadImage = ({form, setForm}) => {
 };
 
 export default UploadImage;
+

@@ -1,15 +1,14 @@
-import React, {useContext, useEffect, useState} from 'react';
+import React, {useContext, useLayoutEffect, useState} from 'react';
 import { Button } from 'antd';
 import {Context} from "../index";
 import {useNavigate} from "react-router-dom";
 import {ADMIN_ROUTER, COLLECTION_ROUTER, LOGIN_ROUTER, MY_COLLECTIONS_ROUTER} from "../utils/consts";
-import {getUsers} from "../http/userApi";
 
 
 const NavBar = () => {
     const [isAdmin, setIsAdmin] = useState(false);
     const {user} = useContext(Context);
-    console.log(user.getUser().role);
+    console.log(user.userRole);
     const navigate = useNavigate();
 
     const logOut = () => {
@@ -19,14 +18,15 @@ const NavBar = () => {
         navigate(COLLECTION_ROUTER, { replace: true })
     }
 
-    useEffect(() => {
-        console.log('hello')
-         let currentRole = user.getUser().role;
-        if(currentRole === "Admin") {
+    useLayoutEffect(() => {
+        debugger
+        if(user.userRole === "ADMIN") {
             setIsAdmin(true);
         }
-    }, [user.isAuth]);
-
+        if(user.userRole === undefined) {
+            setIsAdmin(false);
+        }
+    }, [user.isAuth,user.userRole]);
 
     return (
         <div className='navbar'>
@@ -36,29 +36,31 @@ const NavBar = () => {
             </form>
             {user.isAuth
                 ?
-                <nav className="ml-auto m-2">
+                <nav>
+                    <div>
                     {isAdmin
                         ?
                         <Button
                             type="primary" danger ghost
                             onClick={() => navigate(ADMIN_ROUTER, { replace: true })}
                         >
-                            Админ панель
-                        </Button>
-                        :
+                            Admin panel
+                        </Button> : <div></div>
+                    }
                         <Button
                             type="primary" danger ghost
                             onClick={() => navigate(MY_COLLECTIONS_ROUTER, { replace: true })}
                         >
                             My Collections
                         </Button>
-                    }
                     <Button
                         type="primary" danger ghost
                         onClick={() =>logOut()}
                     >
                         Выйти
                     </Button>
+                    </div>
+
                 </nav>
                 :
                 <nav className="ml-auto m-2">

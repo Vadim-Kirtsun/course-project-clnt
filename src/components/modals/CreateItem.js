@@ -1,6 +1,6 @@
 import React, {useEffect, useState} from 'react';
 import {Form, Input, Modal, Select, Tag} from "antd";
-import {createItem, createTags, fetchTags} from "../../http/itemApi";
+import {createItem, fetchTags} from "../../http/itemApi";
 
 const CreateItem = ({collectionId,currentItem, visible, setVisible}) => {
     const { Option } = Select;
@@ -15,8 +15,6 @@ const CreateItem = ({collectionId,currentItem, visible, setVisible}) => {
         e.preventDefault()
         const newTags = form.tags.map(t =>({name: t}));
         const data = await createItem({id:form.id, name:form.name, tags:newTags, collectionId: collectionId});
-        //debugger
-       // const data2 = await createTags({tags:newTags, itemId:data});
         setVisible(false);
     };
 

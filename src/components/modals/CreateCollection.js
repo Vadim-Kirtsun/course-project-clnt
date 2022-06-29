@@ -12,7 +12,6 @@ const CreateCollection = ({currentEditCollection, visible, setVisible}) => {
     const [form, setForm] = useState({});
     const [componentSize, setComponentSize] = useState('default');
 
-
     const hideModal = (e) => {
         e.preventDefault()
         setVisible(false);
@@ -81,7 +80,7 @@ const CreateCollection = ({currentEditCollection, visible, setVisible}) => {
                 </Select>
             </Form.Item>
             <Form.Item label="Image">
-                <UploadImage form={form} setForm={setForm}/>
+                <UploadImage imageUrl={form.image} setImageUrl={(value) => setForm({...form, image: value})}/>
             </Form.Item>
             </Form>
             <CreateField />

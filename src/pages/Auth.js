@@ -17,13 +17,15 @@ const Auth = observer( () => {
 
     const click = async () => {
         try{
+            let data;
             if (isLogin) {
-                const data = await login(email, password);
+                data = await login(email, password);
             } else {
-                const data = await registration(name, email, password);
+                data = await registration(name, email, password);
             }
             user.setUser(user);
             user.setIsAuth(true);
+            user.setUserRole(data.role);
             navigate(COLLECTION_ROUTER, { replace: true });
         } catch (e) {
             alert('something went wrong');
