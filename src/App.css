@@ -1,42 +1,62 @@
 @import '~antd/dist/antd.css';
 
+#light {
+    background-color: #fff;
+}
+#light h3{
+    color: #495057;
+}
+
+#dark {
+    background-color: #495057;
+    color: #fafafa;
+}
+#dark h3{
+    color: #fafafa;
+}
+#dark .ant-table-tbody > tr > td {
+    background-color: #495057;
+}
+
+#dark .ant-table-thead > tr > th {
+    background-color: #0f4b68;
+}
+
 #root {
-  height: 100%;
-  width: 100%;
-  padding: 0 2%;
+    height: 100%;
+    width: 100%;
+    padding: 0 2%;
 }
 
 .navbar {
-  height: 70px;
-  width: 95vw;
-  display: flex;
-  /*justify-content: flex-end;*/
-  align-items: center;
-  padding: 0 15px;
-  background: lightgray;
-  margin-bottom: 50px;
+    height: 70px;
+    width: 95vw;
+    display: flex;
+    align-items: center;
+    padding: 0 15px;
+    margin-bottom: 50px;
 }
 
 .toolbar {
-  height: 50px;
-  width: 100%;
-  display: flex;
-  justify-content: flex-end;
-  align-items: center;
-  padding: 0 15px;
-  background: lightgray;
+    height: 50px;
+    width: 100%;
+    display: flex;
+    justify-content: flex-end;
+    align-items: center;
+    padding: 0 15px;
+    background: lightgray;
 }
 
 .icon {
-  margin: 0 20px;
+    margin: 0 20px;
 }
 
 .subHeader {
-  display: inline-flex;
-  min-width: 100%;
-  align-items: baseline;
+    display: inline-flex;
+    min-width: 100%;
+    align-items: baseline;
 }
 
-.subHeader div{
-  width: 85%;
+.subHeader div {
+    width: 85%;
 }

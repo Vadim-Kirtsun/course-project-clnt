@@ -27,7 +27,7 @@ export default class UserStore {
     get userRole() {
         return this._user.role
     }
-    setUserRole(role) {
+    set userRole(role) {
         this._user.role = role;
     }
 }

@@ -31,10 +31,12 @@ const MyCollection = () => {
     const showModal = () => {
         setVisible(true);
     };
+
     const editItem = (item) => {
         setCurrentItem(item);
         setVisible(true);
     };
+
     const deleteItem = async (id) => {
         const data = await removeItem(id);
         setChangeCount(changeCount + 1);
@@ -73,6 +75,7 @@ const MyCollection = () => {
             })
         return array;
     }
+
     const prepareAdditionalData = (additionalFields) =>{
         let array = [];
         additionalFields.forEach((item) => {

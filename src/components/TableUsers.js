@@ -3,6 +3,7 @@ import "antd/dist/antd.css";
 import {Button, Table} from 'antd';
 import {blockUser, changeRoleUser, getUsers} from "../http/userApi";
 import {Context} from "../index";
+import {UserContext} from "../App";
 
 const columns = [
     {
@@ -33,6 +34,7 @@ const columns = [
 
 const TableUsers = ({setSelectedIds, setChangesCount, changesCount}) => {
     const [users, setUsers] = useState([]);
+    const {currentUser, setCurrentUser} = useContext(UserContext);
     const {user} = useContext(Context);
 
     const rowSelection = {
@@ -52,7 +54,8 @@ const TableUsers = ({setSelectedIds, setChangesCount, changesCount}) => {
             }
             if (response.message) {
                 debugger
-                user.setUserRole(role);
+                if(currentUser.id === id){setCurrentUser({...currentUser,role:role})};
+                console.log(user.userRole)
                 setChangesCount(++changesCount);
             }
         });
