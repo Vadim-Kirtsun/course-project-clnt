@@ -1,21 +1,16 @@
-import React, {useContext, useEffect, useLayoutEffect, useState} from 'react';
+import React, {useContext} from 'react';
 import {Button, Switch} from 'antd';
-import {Context} from "../index";
 import {useNavigate} from "react-router-dom";
 import {ADMIN_ROUTER, COLLECTION_ROUTER, LOGIN_ROUTER, MY_COLLECTIONS_ROUTER} from "../utils/consts";
 import {ThemeContext, UserContext} from "../App";
 
 
 const NavBar = () => {
-    const {user} = useContext(Context);
     const {currentUser, setCurrentUser} = useContext(UserContext);
     const {theme, toggleTheme} = useContext(ThemeContext);
-    console.log(user.userRole);
     const navigate = useNavigate();
 
     const logOut = () => {
-        user.setUser({});
-        user.setIsAuth(false);
         setCurrentUser({isAuth: false})
         localStorage.removeItem('token');
         navigate(COLLECTION_ROUTER, { replace: true })

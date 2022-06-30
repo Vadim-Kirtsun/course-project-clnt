@@ -4,12 +4,10 @@ import {BrowserRouter, NavLink, useLocation, useNavigate} from "react-router-dom
 import {COLLECTION_ROUTER, LOGIN_ROUTER, REGISTRATION_ROUTER,} from "../utils/consts";
 import {login, registration} from "../http/userApi";
 import {observer} from "mobx-react-lite";
-import {Context} from "../index";
 import {UserContext} from "../App";
 
 const Auth = observer( () => {
-    const {user} = useContext(Context);
-    const {currentUser, setCurrentUser} = useContext(UserContext);
+    const { setCurrentUser} = useContext(UserContext);
     const location = useLocation();
     const navigate = useNavigate();
     const isLogin = location.pathname === LOGIN_ROUTER;
@@ -25,11 +23,7 @@ const Auth = observer( () => {
             } else {
                 data = await registration(name, email, password);
             }
-            debugger
             setCurrentUser({id:data.id,role:data.role});
-            user.setUser(user);
-            user.setIsAuth(true);
-            //user.setUserRole(data.role);
             navigate(COLLECTION_ROUTER, { replace: true });
         } catch (e) {
             alert('something went wrong');

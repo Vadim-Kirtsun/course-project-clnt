@@ -4,7 +4,6 @@ import './App.css';
 import AppRouter from "./components/AppRouter";
 import NavBar from "./components/NavBar"
 import {observer} from "mobx-react-lite";
-import {Context} from "./index";
 import {check} from "./http/userApi";
 import {Spin} from "antd";
 
@@ -12,18 +11,9 @@ export const ThemeContext = createContext(null);
 export const UserContext = createContext(null);
 
 const App = observer(() => {
-    const {user} = useContext(Context);
     const [loading, setLoading] = useState(true);
     const [theme, setTheme] = useState("light");
     const [currentUser, setCurrentUser] = useState({});
-
-    useEffect(() => {
-        check().then(data => {
-            user.setUser(data);
-            user.setIsAuth(true);
-            console.log(data);
-        }).finally(() => setLoading(false))
-    }, [user])
 
     useEffect(() => {
         check().then(data => {

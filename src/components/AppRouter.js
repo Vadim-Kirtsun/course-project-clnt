@@ -1,15 +1,15 @@
 import React, {useContext} from 'react';
 import {Navigate, Route, Routes} from "react-router-dom";
 import {authRoutes, publicRoutes} from "../router";
-import {Context} from "../index";
 import {observer} from "mobx-react-lite";
+import {UserContext} from "../App";
 
 
 const AppRouter = observer(() => {
-    const {user} = useContext(Context)
+    const {currentUser} = useContext(UserContext);
 
     return (
-        user.isAuth
+        currentUser.isAuth
             ? <Routes>
                 {authRoutes.map((router) =>
                     <Route
