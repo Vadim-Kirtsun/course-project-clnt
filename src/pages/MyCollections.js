@@ -106,7 +106,6 @@ const MyCollections = () => {
 
         } else {
             fetchCollectionsUser(currentUser.id).then(data => {
-                debugger
                 if (data.length > 0){
                     const results= data.map(row => ({
                         id: row.id,

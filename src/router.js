@@ -9,7 +9,7 @@ import {
     COLLECTION_ID_ROUTER,
     MY_COLLECTIONS_ID_ROUTER
 } from "./utils/consts";
-import CollectionId from "./pages/CollectionId";
+import Collection from "./pages/Collection";
 import Item from "./pages/Item";
 import Auth from "./pages/Auth";
 import MyCollections from "./pages/MyCollections";
@@ -36,7 +36,7 @@ export const authRoutes = [
     },
     {
         path: COLLECTION_ID_ROUTER,
-        element: <CollectionId/>
+        element: <Collection/>
     },
     {
         path: ITEM_ROUTER,
@@ -51,7 +51,7 @@ export const publicRoutes = [
     },
     {
         path: COLLECTION_ID_ROUTER,
-        element: <CollectionId/>
+        element: <Collection/>
     },
     {
         path: ITEM_ROUTER,

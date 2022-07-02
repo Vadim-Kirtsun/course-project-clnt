@@ -3,6 +3,8 @@ import { Card } from 'antd';
 import {fetchCollections} from "../http/collectionApi";
 import Meta from "antd/es/card/Meta";
 import Avatar from "antd/es/avatar/avatar";
+import {COLLECTION_ROUTER} from "../utils/consts";
+import {NavLink} from "react-router-dom";
 
 
 
@@ -33,7 +35,7 @@ const Collections = () => {
                 >
                     <Meta
                         avatar={<Avatar src={elem.image} />}
-                        title={elem.name}
+                        title={<NavLink to={`${COLLECTION_ROUTER}/${elem.id}`} >{elem.name}</NavLink>}
                         description={elem.description}
                     />
 
