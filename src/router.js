@@ -13,7 +13,7 @@ import CollectionId from "./pages/CollectionId";
 import Item from "./pages/Item";
 import Auth from "./pages/Auth";
 import MyCollections from "./pages/MyCollections";
-import Collection from "./pages/Collection";
+import Collections from "./pages/Collections";
 import MyCollection from "./pages/MyCollection";
 
 
@@ -32,7 +32,7 @@ export const authRoutes = [
     },
     {
         path: COLLECTION_ROUTER,
-        element: <Collection/>
+        element: <Collections/>
     },
     {
         path: COLLECTION_ID_ROUTER,
@@ -47,7 +47,7 @@ export const authRoutes = [
 export const publicRoutes = [
     {
         path: COLLECTION_ROUTER,
-        element: <Collection/>
+        element: <Collections/>
     },
     {
         path: COLLECTION_ID_ROUTER,

@@ -1,7 +1,6 @@
-import React, {useContext} from 'react';
-import { Button } from 'antd';
+import React from 'react';
 import 'antd/dist/antd.css';
-import { DeleteOutlined, UnlockFilled } from '@ant-design/icons';
+import {DeleteOutlined, LockOutlined, UnlockOutlined} from '@ant-design/icons';
 import {blockUser, deleteUser, unblockUser} from "../http/userApi";
 
 
@@ -54,13 +53,13 @@ const Toolbar = ({selectedIds, setChangesCount, changesCount}) => {
 
     return (
         <div className='toolbar'>
-            <Button onClick={block}  type="primary" danger ghost>
-                Block
-            </Button>
-            <span onClick={unblock} className='icon'>
-                <UnlockFilled />
+            <span onClick={block} className='icon'>
+                <LockOutlined />
             </span>
-            <span onClick={deleteUsr}>
+            <span onClick={unblock} className='icon'>
+                <UnlockOutlined  />
+            </span>
+            <span onClick={deleteUsr} className='icon'>
                 <DeleteOutlined />
             </span>
         </div>

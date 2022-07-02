@@ -10,6 +10,11 @@ export const fetchCollections = async () => {
     return data;
 };
 
+export const fetchCollectionsUser = async (id) => {
+    const {data} = await $host.get('api/collection/user/' + id);
+    return data;
+};
+
 export const removeCollection = async (id) => {
     const {data} = await $host.put('api/collection/delete', {id: id});
     return data;

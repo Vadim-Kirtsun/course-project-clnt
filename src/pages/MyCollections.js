@@ -1,11 +1,12 @@
-import React, {useEffect, useState} from 'react';
+import React, {useContext, useEffect, useState} from 'react';
 import CreateCollection from "../components/modals/CreateCollection";
-import {fetchCollections, removeCollection} from "../http/collectionApi";
+import {fetchCollections, fetchCollectionsUser, removeCollection} from "../http/collectionApi";
 import {Button, Table} from 'antd';
 import {EditOutlined, DeleteOutlined, DiffOutlined} from '@ant-design/icons';
 import CreateField from "../components/modals/CreateField";
 import {MY_COLLECTIONS_ROUTER} from "../utils/consts";
 import {NavLink} from "react-router-dom";
+import {UserContext} from "../App";
 
 const columns = [
     {
@@ -42,6 +43,7 @@ const columns = [
 ];
 
 const MyCollections = () => {
+    const {currentUser} = useContext(UserContext);
     const [myCollection, setMyCollection] = useState([]);
     const [currentAddFields, setCurrentAddFields] = useState([]);
     const [currentCollectionId, setCurrentCollectionId] = useState('');
@@ -79,30 +81,58 @@ const MyCollections = () => {
     }
 
     useEffect(() => {
-        fetchCollections().then(data => {
-            if (data.length > 0){
-                const results= data.map(row => ({
-                    id: row.id,
-                    name: <NavLink to={`${MY_COLLECTIONS_ROUTER}/${row.id}`} key={row.name}>{row.name}</NavLink>,
-                    description: row.description,
-                    subject: row.subject,
-                    image: row.image ? 'Yes' : 'No',
-                    additional_fields: combineAddFields(row.add_fields),
-                    actions:
-                        <div>
-                            <DiffOutlined onClick={() => editAdditionField(row.id, row.add_fields)} style={{ fontSize: '20px', color: '#08c'}}/>
-                            <EditOutlined onClick={() => editCollection(row)} style={{ fontSize: '20px', color: '#08c', margin: '0 10px'}}/>
-                            <DeleteOutlined onClick={() => deleteCollection(row.id)} style={{ fontSize: '20px', color: '#08c' }}/>
-                        </div>
-                }));
-                setMyCollection(results);
-            } else {
-                alert(data.message);
-            }}
-        );
-    }, [visible, visibleField, changeCount])
+        if (currentUser.role === "ADMIN") {
+            fetchCollections().then(data => {
+                if (data.length > 0){
+                    const results= data.map(row => ({
+                        id: row.id,
+                        name: <NavLink to={`${MY_COLLECTIONS_ROUTER}/${row.id}`} key={row.name}>{row.name}</NavLink>,
+                        description: row.description,
+                        subject: row.subject,
+                        image: row.image ? 'Yes' : 'No',
+                        additional_fields: combineAddFields(row.add_fields),
+                        actions:
+                            <div>
+                                <DiffOutlined onClick={() => editAdditionField(row.id, row.add_fields)} style={{ fontSize: '20px', color: '#08c'}}/>
+                                <EditOutlined onClick={() => editCollection(row)} style={{ fontSize: '20px', color: '#08c', margin: '0 10px'}}/>
+                                <DeleteOutlined onClick={() => deleteCollection(row.id)} style={{ fontSize: '20px', color: '#08c' }}/>
+                            </div>
+                    }));
+                    setMyCollection(results);
+                } else {
+                    alert(data.message);
+                }}
+            );
 
-    return (
+        } else {
+            fetchCollectionsUser(currentUser.id).then(data => {
+                debugger
+                if (data.length > 0){
+                    const results= data.map(row => ({
+                        id: row.id,
+                        name: <NavLink to={`${MY_COLLECTIONS_ROUTER}/${row.id}`} key={row.name}>{row.name}</NavLink>,
+                        description: row.description,
+                        subject: row.subject,
+                        image: row.image ? 'Yes' : 'No',
+                        additional_fields: combineAddFields(row.add_fields),
+                        actions:
+                            <div>
+                                <DiffOutlined onClick={() => editAdditionField(row.id, row.add_fields)} style={{ fontSize: '20px', color: '#08c'}}/>
+                                <EditOutlined onClick={() => editCollection(row)} style={{ fontSize: '20px', color: '#08c', margin: '0 10px'}}/>
+                                <DeleteOutlined onClick={() => deleteCollection(row.id)} style={{ fontSize: '20px', color: '#08c' }}/>
+                            </div>
+                    }));
+                    setMyCollection(results);
+                } else {
+                    alert(data.message);
+                }}
+            );
+        }
+
+}, [visible, visibleField, changeCount])
+
+
+return (
         <div>
             <div>
                 <div className="subHeader">
