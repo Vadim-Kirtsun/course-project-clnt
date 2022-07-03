@@ -221,7 +221,7 @@ const MyCollection = () => {
             </div>
             <TableItems columns={columns} data={addFieldValues}/>
 
-            <CreateItem collectionId={collection.id} currentItem={currentItem} visible={visible} setVisible={setVisible}/>
+            <CreateItem collectionId={collection.id} addFields={collection.add_fields} currentItem={currentItem} visible={visible} setVisible={setVisible}/>
         </div>
     );
 };

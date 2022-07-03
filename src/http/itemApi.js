@@ -10,6 +10,11 @@ export const removeItem = async (id) => {
     return data;
 };
 
+export const fetchItemById = async (id) => {
+    const {data} = await $host.get('api/item/' + id);
+    return data;
+};
+
 export const fetchTags = async () => {
     const {data} = await $host.get('api/tag/');
     return data;

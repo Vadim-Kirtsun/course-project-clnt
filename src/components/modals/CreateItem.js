@@ -1,8 +1,11 @@
 import React, {useEffect, useState} from 'react';
-import {Form, Input, Modal, Select, Tag} from "antd";
+import {Form, Input, Modal, Select, Switch, Tag} from "antd";
 import {createItem, fetchTags} from "../../http/itemApi";
+import EditAddFiled from "../EditAddFiled";
 
-const CreateItem = ({collectionId,currentItem, visible, setVisible}) => {
+
+
+const CreateItem = ({collectionId,addFields = [], currentItem, visible, setVisible}) => {
     const { Option } = Select;
     const [componentSize, setComponentSize] = useState('default');
     const [form, setForm] = useState({});
@@ -17,13 +20,13 @@ const CreateItem = ({collectionId,currentItem, visible, setVisible}) => {
         const data = await createItem({id:form.id, name:form.name, tags:newTags, collectionId: collectionId});
         setVisible(false);
     };
-
     useEffect(() => {
         setForm({ id: currentItem.id,
                         name: currentItem.name,
                         tags:(currentItem.tags !== undefined)
                             ? currentItem.tags.map(t=>t.name)
-                            : []});
+                            : [],
+                        addFields: (addFields) ? addFields : []});
         fetchTags().then(data => {
             const tagOptions = data.map(t => ({ value: t.name}));
             setOptions(tagOptions);
@@ -51,7 +54,6 @@ const CreateItem = ({collectionId,currentItem, visible, setVisible}) => {
             </Tag>
         );
     };
-
 
     return (
         <Modal
@@ -100,6 +102,9 @@ const CreateItem = ({collectionId,currentItem, visible, setVisible}) => {
                         options={options}
                     />
                 </Form.Item>
+                {(addFields !== undefined)
+                    ? <EditAddFiled addFields={addFields}/>
+                : <div></div>}
                 {/*<Form.Item label="Subject">
                     <Select
                         value ={form.subject}

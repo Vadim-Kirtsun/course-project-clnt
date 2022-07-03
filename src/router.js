@@ -2,7 +2,7 @@ import Admin from "./pages/Admin";
 import {
     ADMIN_ROUTER,
     COLLECTION_ROUTER,
-    ITEM_ROUTER,
+    ITEM_ID_ROUTER,
     LOGIN_ROUTER,
     REGISTRATION_ROUTER,
     MY_COLLECTIONS_ROUTER,
@@ -39,7 +39,7 @@ export const authRoutes = [
         element: <Collection/>
     },
     {
-        path: ITEM_ROUTER,
+        path: ITEM_ID_ROUTER,
         element: <Item/>
     }
 ];
@@ -54,7 +54,7 @@ export const publicRoutes = [
         element: <Collection/>
     },
     {
-        path: ITEM_ROUTER,
+        path: ITEM_ID_ROUTER,
         element: <Item/>
     },
     {

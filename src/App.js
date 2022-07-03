@@ -16,10 +16,14 @@ const App = observer(() => {
     const [currentUser, setCurrentUser] = useState({});
 
     useEffect(() => {
-        check().then(data => {
-            setCurrentUser({id:data.id, role:data.role, isAuth: true});
-            console.log(currentUser);
-        }).finally(() => setLoading(false))
+        if(currentUser.id !== undefined) {
+            check().then(data => {
+                setCurrentUser({id: data.id, role: data.role, isAuth: true});
+                console.log(currentUser);
+            }).finally(() => setLoading(false))
+        }else{
+            setLoading(false);
+        }
     }, [currentUser.id])
 
     if (loading) {
