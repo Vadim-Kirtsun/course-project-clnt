@@ -15,21 +15,33 @@ const CreateItem = ({collectionId, addFields = [], currentItem, visible, setVisi
     const submitItem = async (e) => {
         e.preventDefault()
         const newTags = form.tags.map(t => ({name: t}));
-        await createItem({id: form.id, name: form.name, tags: newTags, addFields: form.addFields, collectionId: collectionId});
+        await createItem({
+            id: form.id,
+            name: form.name,
+            tags: newTags,
+            addFields: form.addFields,
+            collectionId: collectionId
+        });
         setVisible(false);
     };
 
     const fillAddFieldsArray = (addFields) => {
-        debugger
         const result = addFields.map(addField => ({
             addField_id: addField.id,
             name: addField.name,
             type: addField.type,
-            value: (addField.value === undefined)? "":addField.value,
+            value: getValue(addField.id),
         }))
         return result;
     }
 
+    const getValue = (id) => {
+        if (currentItem.add_field_values) {
+            return currentItem.add_field_values.filter(fv => fv.addFieldId === id).map(v => v.value)[0];
+        }
+
+        return '';
+    }
     useEffect(() => {
         setForm({
             id: currentItem.id,
@@ -116,7 +128,7 @@ const CreateItem = ({collectionId, addFields = [], currentItem, visible, setVisi
                 </Form.Item>
             </Form>
             {(addFields !== undefined)
-                ? <EditAddFiled addFields={form.addFields} />
+                ? <EditAddFiled addFields={form.addFields}/>
                 : <div></div>}
         </Modal>
     );

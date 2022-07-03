@@ -1,12 +1,12 @@
 import React from 'react';
 import {DatePicker, Form, Input, Switch} from "antd";
 import TextArea from "antd/es/input/TextArea";
+import moment from "moment";
 
 const EditAddFiled = ({addFields}) => {
 
     const updateField = (addField,value) =>{
         addField.value = value;
-        console.log(addFields)
     }
 
     return (
@@ -22,7 +22,7 @@ const EditAddFiled = ({addFields}) => {
                 {addFields.filter(af => af.type ==="NUMBER").map(addField => (
                     <Form.Item label={addField.name}>
                         <Input value={addField.value}
-                               onChange={e => updateField(addField, e.target.value)}/>
+                               onChange={e => {addField.value = e.target.value}}/>
                     </Form.Item>
                     ))
                 }
@@ -53,7 +53,7 @@ const EditAddFiled = ({addFields}) => {
 
                 {addFields.filter(af => af.type ==="DATE").map(addField => (
                     <Form.Item label={addField.name}>
-                        <DatePicker value={addField.value}
+                        <DatePicker defaultValue={moment(addField.value)}
                                     onChange={(date,dateString) => updateField(addField, dateString)}/>
                     </Form.Item>
                 ))

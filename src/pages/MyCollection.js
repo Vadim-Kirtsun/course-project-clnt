@@ -210,7 +210,6 @@ const MyCollection = () => {
         fetchItemsById(params.id).then(data => {
             setColumns(initialColumns.concat(prepareAdditionalColumns(data.add_fields)));
             setAddFieldValues(prepareAdditionalData(data.items));
-            debugger
             setCollection(data);
         })
     }, [visible, changeCount])
