@@ -4,37 +4,49 @@ import {createItem, fetchTags} from "../../http/itemApi";
 import EditAddFiled from "../EditAddFiled";
 
 
-
-const CreateItem = ({collectionId,addFields = [], currentItem, visible, setVisible}) => {
-    const { Option } = Select;
+const CreateItem = ({collectionId, addFields = [], currentItem, visible, setVisible}) => {
     const [componentSize, setComponentSize] = useState('default');
     const [form, setForm] = useState({});
     const [options, setOptions] = useState([]);
 
-    const onFormLayoutChange = ({ size }) => {
+    const onFormLayoutChange = ({size}) => {
         setComponentSize(size);
     };
     const submitItem = async (e) => {
         e.preventDefault()
-        const newTags = form.tags.map(t =>({name: t}));
-        const data = await createItem({id:form.id, name:form.name, tags:newTags, collectionId: collectionId});
+        const newTags = form.tags.map(t => ({name: t}));
+        await createItem({id: form.id, name: form.name, tags: newTags, addFields: form.addFields, collectionId: collectionId});
         setVisible(false);
     };
+
+    const fillAddFieldsArray = (addFields) => {
+        debugger
+        const result = addFields.map(addField => ({
+            addField_id: addField.id,
+            name: addField.name,
+            type: addField.type,
+            value: (addField.value === undefined)? "":addField.value,
+        }))
+        return result;
+    }
+
     useEffect(() => {
-        setForm({ id: currentItem.id,
-                        name: currentItem.name,
-                        tags:(currentItem.tags !== undefined)
-                            ? currentItem.tags.map(t=>t.name)
-                            : [],
-                        addFields: (addFields) ? addFields : []});
+        setForm({
+            id: currentItem.id,
+            name: currentItem.name,
+            tags: (currentItem.tags !== undefined)
+                ? currentItem.tags.map(t => t.name)
+                : [],
+            addFields: (addFields) ? fillAddFieldsArray(addFields) : []
+        });
         fetchTags().then(data => {
-            const tagOptions = data.map(t => ({ value: t.name}));
+            const tagOptions = data.map(t => ({value: t.name}));
             setOptions(tagOptions);
         })
-    },[visible])
+    }, [visible])
 
     const tagRender = (props) => {
-        const { label, value, closable, onClose } = props;
+        const {label, value, closable, onClose} = props;
 
         const onPreventMouseDown = (event) => {
             event.preventDefault();
@@ -102,23 +114,10 @@ const CreateItem = ({collectionId,addFields = [], currentItem, visible, setVisib
                         options={options}
                     />
                 </Form.Item>
-                {(addFields !== undefined)
-                    ? <EditAddFiled addFields={addFields}/>
-                : <div></div>}
-                {/*<Form.Item label="Subject">
-                    <Select
-                        value ={form.subject}
-                        style={{
-                            width: 120,
-                        }}
-                        onChange={(value) => setForm({...form, subject: value})}
-                    >
-                        {subjects.map(subject =>
-                            <Option key={subject} value={subject}>{subject}</Option>
-                        )}
-                    </Select>
-                </Form.Item>*/}
             </Form>
+            {(addFields !== undefined)
+                ? <EditAddFiled addFields={form.addFields} />
+                : <div></div>}
         </Modal>
     );
 };

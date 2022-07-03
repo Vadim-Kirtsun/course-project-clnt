@@ -136,6 +136,7 @@ const MyCollection = () => {
     ];
 
     const showModal = () => {
+        setCurrentItem({});
         setVisible(true);
     };
 
@@ -154,10 +155,11 @@ const MyCollection = () => {
         additionalFields.forEach((item) => {
             array.push({
                 title: item.name,
-                dataIndex: item.name,
+                dataIndex: `addfield${item.id}`,
                 key: item.name,
             })
         })
+
         array.push({
             title: 'Tags',
             key: 'tags',
@@ -186,7 +188,9 @@ const MyCollection = () => {
     const prepareAdditionalData = (additionalFields) =>{
         let array = [];
         additionalFields.forEach((item) => {
-            array.push({
+            const addValues = item.add_field_values.reduce(
+                (obj, item) => Object.assign(obj, { ["addfield"+item.addFieldId]: item.value }), {});
+            const firstPartValues = {
                 key: item.id,
                 id: item.id,
                 name: item.name,
@@ -196,7 +200,8 @@ const MyCollection = () => {
                         <EditOutlined onClick={() => editItem(item)} style={{ fontSize: '20px', color: '#08c', margin: '0 10px'}}/>
                         <DeleteOutlined onClick={() => deleteItem(item.id)} style={{ fontSize: '20px', color: '#08c' }}/>
                     </div>
-            })
+            }
+            array.push({...firstPartValues, ...addValues})
         })
         return array;
     }
@@ -205,6 +210,7 @@ const MyCollection = () => {
         fetchItemsById(params.id).then(data => {
             setColumns(initialColumns.concat(prepareAdditionalColumns(data.add_fields)));
             setAddFieldValues(prepareAdditionalData(data.items));
+            debugger
             setCollection(data);
         })
     }, [visible, changeCount])
