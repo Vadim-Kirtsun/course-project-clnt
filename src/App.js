@@ -3,14 +3,13 @@ import {BrowserRouter} from "react-router-dom";
 import './App.css';
 import AppRouter from "./components/AppRouter";
 import NavBar from "./components/NavBar"
-import {observer} from "mobx-react-lite";
 import {check} from "./http/userApi";
 import {Spin} from "antd";
 
 export const ThemeContext = createContext(null);
 export const UserContext = createContext(null);
 
-const App = observer(() => {
+const App = () => {
     const [loading, setLoading] = useState(true);
     const [theme, setTheme] = useState("light");
     const [currentUser, setCurrentUser] = useState({});
@@ -46,6 +45,6 @@ const App = observer(() => {
             </UserContext.Provider>
         </ThemeContext.Provider>
     );
-});
+};
 
 export default App;

@@ -1,13 +1,12 @@
 import React, {useContext, useState} from 'react';
 import {Button, Card, Container, Form, Row} from "react-bootstrap";
-import {BrowserRouter, NavLink, useLocation, useNavigate} from "react-router-dom";
+import {NavLink, useLocation, useNavigate} from "react-router-dom";
 import {COLLECTION_ROUTER, LOGIN_ROUTER, REGISTRATION_ROUTER,} from "../utils/consts";
 import {login, registration} from "../http/userApi";
-import {observer} from "mobx-react-lite";
 import {UserContext} from "../App";
 
-const Auth = observer( () => {
-    const { setCurrentUser} = useContext(UserContext);
+const Auth = () => {
+    const {setCurrentUser} = useContext(UserContext);
     const location = useLocation();
     const navigate = useNavigate();
     const isLogin = location.pathname === LOGIN_ROUTER;
@@ -23,10 +22,10 @@ const Auth = observer( () => {
             } else {
                 data = await registration(name, email, password);
             }
-            setCurrentUser({id:data.id,role:data.role});
+            setCurrentUser({id:data.id, role:data.role});
             navigate(COLLECTION_ROUTER, { replace: true });
         } catch (e) {
-            alert('something went wrong');
+            alert('Something went wrong');
         }
     }
 
@@ -81,6 +80,6 @@ const Auth = observer( () => {
             </Card>
         </Container>
     );
-});
+};
 
 export default Auth;

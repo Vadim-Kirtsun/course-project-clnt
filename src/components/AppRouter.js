@@ -1,11 +1,10 @@
 import React, {useContext} from 'react';
 import {Navigate, Route, Routes} from "react-router-dom";
 import {authRoutes, publicRoutes} from "../router";
-import {observer} from "mobx-react-lite";
 import {UserContext} from "../App";
 
 
-const AppRouter = observer(() => {
+const AppRouter = () => {
     const {currentUser} = useContext(UserContext);
 
     return (
@@ -38,6 +37,6 @@ const AppRouter = observer(() => {
                     />
                 </Routes>
     );
-});
+};
 
 export default AppRouter;

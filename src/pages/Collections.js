@@ -9,13 +9,13 @@ import {NavLink} from "react-router-dom";
 
 
 const Collections = () => {
-    const [allCollection, setAllCollection] = useState([]);
+    const [allCollections, setAllCollections] = useState([]);
 
 
     useEffect(() => {
         fetchCollections().then(data => {
                 if (data.length > 0) {
-                    setAllCollection(data);
+                    setAllCollections(data);
                 } else {
                     alert(data.message);
                 }
@@ -25,18 +25,18 @@ const Collections = () => {
 
     return (
         <Card title="All collections">
-            {allCollection.map(elem => (
+            {allCollections.map(collection => (
                 <Card.Grid
-                    key={elem.id}
+                    key={collection.id}
                     style={{
                         width: '25%',
                         textAlign: 'center',
                     }}
                 >
                     <Meta
-                        avatar={<Avatar src={elem.image} />}
-                        title={<NavLink to={`${COLLECTION_ROUTER}/${elem.id}`} >{elem.name}</NavLink>}
-                        description={elem.description}
+                        avatar={<Avatar src={collection.image} />}
+                        title={<NavLink to={`${COLLECTION_ROUTER}/${collection.id}`} >{collection.name}</NavLink>}
+                        description={collection.description}
                     />
 
                 </Card.Grid>
