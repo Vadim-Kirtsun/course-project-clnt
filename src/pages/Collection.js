@@ -5,24 +5,14 @@ import {fetchItemsById} from "../http/collectionApi";
 import {NavLink, useParams} from "react-router-dom";
 import {ITEM_ROUTER} from "../utils/consts";
 import AddFieldValues from "../components/AddFieldValues";
+import IconText from "../components/IconText";
+import Tags from "../components/Tags";
 
 const Collection = () => {
     const params = useParams();
     const [loading, setLoading] = useState(true);
     const [collection, setCollection] = useState({});
 
-    const IconText = ({icon, text}) => (
-        <Space>
-            {React.createElement(icon)}
-            {text}
-        </Space>
-    );
-    const TagsText = ({icon, tags}) => (
-        <Space>
-            {React.createElement(icon)}
-            {tags.map(tag => (<Tag color="blue" key={tag.id}>{tag.name}</Tag>))}
-        </Space>
-    );
 
     useEffect(() => {
         fetchItemsById(params.id).then(data => {
@@ -65,7 +55,7 @@ const Collection = () => {
                         <IconText icon={MessageOutlined}
                                   text={(item.comments != undefined) ? item.comments.length : "0"}
                                   key="list-vertical-message"/>,
-                        <TagsText icon={TagsOutlined} tags={item.tags} key="list-vertical-like-o"/>,
+                        <Tags icon={TagsOutlined} tags={item.tags} key="list-vertical-like-o"/>,
                     ]}
                 >
                     <List.Item.Meta title={<NavLink to={`${ITEM_ROUTER}/${item.id}`}>{item.name}</NavLink>}/>
