@@ -12,6 +12,7 @@ const CreateItem = ({collectionId, addFields = [], currentItem, visible, setVisi
     const onFormLayoutChange = ({size}) => {
         setComponentSize(size);
     };
+
     const submitItem = async (e) => {
         e.preventDefault()
         const newTags = form.tags.map(t => ({name: t}));

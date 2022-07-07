@@ -16,7 +16,7 @@ export const fetchCollectionsUser = async (id) => {
 };
 
 export const removeCollection = async (id) => {
-    const {data} = await $host.put('api/collection/delete', {id: id});
+    const {data} = await $host.delete('api/collection/' + id);
     return data;
 };
 

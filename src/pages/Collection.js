@@ -42,11 +42,6 @@ const Collection = () => {
                     fields={collection.add_fields.filter(af => af.type === 'STRING' || af.type === 'DATE')}
                     values={item.add_field_values}/>
             }))}
-            footer={
-                <div>
-                    <b>ant design</b> footer part
-                </div>
-            }
             renderItem={(item) => (
                 <List.Item
                     key={item.id}

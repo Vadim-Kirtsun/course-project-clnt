@@ -21,6 +21,7 @@ export const fetchTags = async () => {
 };
 
 export const createTags = async (tags) => {
-    const {data} = await $authHost.post('api/tag/',tags);
+    const {data} = await $authHost.post('api/tag/', tags);
     return data;
 };
+

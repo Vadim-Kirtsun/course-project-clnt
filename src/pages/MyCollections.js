@@ -119,7 +119,7 @@ const MyCollections = () => {
                 />
             </div>
             <CreateCollection
-                currentEditCollection={currentCollection}
+                currentCollection={currentCollection}
                 visible={collectionModalVisible} setVisible={setCollectionModalVisible}
             />
             <CreateField

@@ -7,22 +7,18 @@ const CreateField = ({collectionId, currentAddFields, visible, setVisible}) => {
     const { Option } = Select;
     const types = ["NUMBER", "STRING", "TEXT", "BOOLEAN", "DATE"];
     const [form] = Form.useForm();
-    const [prev, setPrev] = useState([]);
-
 
     const onFinish = async (additionalFields) => {
         const prevIds = currentAddFields.map(elem => elem.id);
         const currentIds = additionalFields.additionalFields.map(elem => elem.id);
         let difference = prevIds.filter(x => !currentIds.includes(x));
-        const deleteId = await deleteAdditionalFields(difference);
-        const data = await saveAdditionalFields(collectionId, additionalFields.additionalFields);
+        if (difference.length > 0) {
+            await deleteAdditionalFields(difference);
+        }
+        await saveAdditionalFields(collectionId, additionalFields.additionalFields);
         setVisible(false);
     };
 
-    const hideModal = (e) => {
-        e.preventDefault()
-        setVisible(false);
-    };
     useEffect(() => form.resetFields(), [currentAddFields]);
 
     return (
@@ -31,7 +27,7 @@ const CreateField = ({collectionId, currentAddFields, visible, setVisible}) => {
             title="Manage Additional Fields"
             visible={visible}
             onOk={form.submit}
-            onCancel={hideModal}
+            onCancel={() => setVisible(false)}
         >
             <Form form={form} name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off" initialValues={currentAddFields}>
                 <Form.List name="additionalFields" initialValue={currentAddFields}>

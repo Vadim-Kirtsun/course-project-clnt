@@ -4,27 +4,34 @@ import {fetchItemById} from "../http/itemApi";
 import Comments from "../components/Comments";
 import AddComment from "../components/AddComment";
 import {Card,} from "antd";
-import {LikeOutlined, TagsOutlined} from "@ant-design/icons";
+import {HeartTwoTone, TagsOutlined} from "@ant-design/icons";
 import {UserContext} from "../App";
 import AddFieldValues from "../components/AddFieldValues";
-import IconText from "../components/IconText";
 import Tags from "../components/Tags";
+import {createLike} from "../http/likeApi";
 
 
 const Item = () => {
     const params = useParams();
-    const [item, setItem] = useState([]);
     const {currentUser} = useContext(UserContext);
+    const [item, setItem] = useState([]);
+/*    let likeId = item.likes.filter(like => like.userId === currentUser.id)*/
     const [like, setLike] = useState(false);
 
+
     const handleLike = async () => {
-        const data = await handleLike(currentUser.id, item.id);
-        console.log(data);
+        if (!currentUser.id) {
+            return alert("Only registered users can like!");
+        }
+
+        const like = await createLike(currentUser.id, item.id);
+        if (like.message) {
+            alert(like.message);
+        }
     }
 
     useEffect(() => {
         fetchItemById(params.id).then(data => {
-            console.log(data);
             setItem(data);
         })
     }, []);
@@ -37,7 +44,10 @@ const Item = () => {
                     width: '100%',
                 }}
                 actions={[
-                    <IconText icon={LikeOutlined} text={handleLike} key="list-vertical-like"/>,
+                    (like)
+                        ? <HeartTwoTone onClick={handleLike} twoToneColor="red"/>
+                        : <HeartTwoTone onClick={handleLike} twoToneColor="black"/>,
+
                     <Tags icon={TagsOutlined} tags={item.tags} key="list-vertical-like-o"/>
                 ]}
             >
@@ -46,14 +56,6 @@ const Item = () => {
             <hr/>
             <Comments comments={item.comments}/>
             <AddComment/>
-            {/*<Descriptions title="Item Info">
-                <Descriptions.Item label="Like">
-                    {(like)
-                        ? <HeartTwoTone onClick={() => setLike(false)} twoToneColor="red" style={{marginTop: "5px"}}/>
-                        : <HeartTwoTone onClick={() => setLike(true)} twoToneColor="black" style={{marginTop: "5px"}}/>
-                    }
-                </Descriptions.Item>
-            </Descriptions>*/}
         </div>
     );
 };
