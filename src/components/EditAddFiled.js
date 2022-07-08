@@ -21,7 +21,7 @@ const EditAddFiled = ({addFields}) => {
                 layout="horizontal">
 
                 {addFields.filter(af => af.type === "NUMBER").map(addField => (
-                    <Form.Item key={addField.id} label={addField.name}>
+                    <Form.Item key={addField.name} label={addField.name}>
                         <Input value={addField.value}
                                onChange={e => setAddField(addField.value = e.target.value)}/>
                     </Form.Item>
@@ -29,7 +29,7 @@ const EditAddFiled = ({addFields}) => {
                 }
 
                 {addFields.filter(af => af.type === "STRING").map(addField => (
-                    <Form.Item key={addField.id} label={addField.name}>
+                    <Form.Item key={addField.name} label={addField.name}>
                         <Input value={addField.value}
                                onChange={e => setAddField(addField.value = e.target.value)}/>
                     </Form.Item>
@@ -37,7 +37,7 @@ const EditAddFiled = ({addFields}) => {
                 }
 
                 {addFields.filter(af => af.type === "TEXT").map(addField => (
-                    <Form.Item key={addField.id} label={addField.name}>
+                    <Form.Item key={addField.name} label={addField.name}>
                         <TextArea value={addField.value}
                                   onChange={e => setAddField(addField.value = e.target.value)}/>
                     </Form.Item>
@@ -45,7 +45,7 @@ const EditAddFiled = ({addFields}) => {
                 }
 
                 {addFields.filter(af => af.type === "BOOLEAN").map(addField => (
-                    <Form.Item key={addField.id} label={addField.name}>
+                    <Form.Item key={addField.name} label={addField.name}>
                         <Switch checkedChildren="YES" unCheckedChildren="NO" defaultChecked={addField.value}
                              onChange={updateField(addField, !addField.value)}/>
                     </Form.Item>
@@ -53,7 +53,7 @@ const EditAddFiled = ({addFields}) => {
                 }
 
                 {addFields.filter(af => af.type === "DATE").map(addField => (
-                    <Form.Item key={addField.id} label={addField.name}>
+                    <Form.Item key={addField.name} label={addField.name}>
                         <DatePicker defaultValue={moment(addField.value)}
                                     onChange={(date,dateString) => updateField(addField, dateString)}/>
                     </Form.Item>
