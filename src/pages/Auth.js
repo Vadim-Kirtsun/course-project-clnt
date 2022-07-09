@@ -25,7 +25,7 @@ const Auth = () => {
             setCurrentUser({id:data.id, role:data.role});
             navigate(COLLECTION_ROUTER, { replace: true });
         } catch (e) {
-            alert('Something went wrong');
+            console.log(e);
         }
     }
 

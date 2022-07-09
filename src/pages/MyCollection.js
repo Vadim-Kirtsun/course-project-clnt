@@ -2,9 +2,9 @@ import React, {useEffect, useRef, useState} from 'react';
 import TableItems from "../components/TableItems";
 import {Button, Space, Tag, Input} from "antd";
 import {useParams} from "react-router-dom";
-import {fetchItemsById, removeCollection} from "../http/collectionApi";
+import {fetchItemsById} from "../http/collectionApi";
 import CreateItem from "../components/modals/CreateItem";
-import {DeleteOutlined, DiffOutlined, EditOutlined, SearchOutlined} from "@ant-design/icons";
+import {DeleteOutlined, EditOutlined, SearchOutlined} from "@ant-design/icons";
 import {removeItem} from "../http/itemApi";
 import Highlighter from 'react-highlight-words';
 
@@ -146,7 +146,7 @@ const MyCollection = () => {
     };
 
     const deleteItem = async (id) => {
-        const data = await removeItem(id);
+        await removeItem(id);
         setChangeCount(changeCount + 1);
     };
 

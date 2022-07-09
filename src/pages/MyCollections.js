@@ -63,7 +63,7 @@ const MyCollections = () => {
     }
 
     const deleteCollection = async (id) => {
-        const data = await removeCollection(id);
+        await removeCollection(id);
         setChangeCount(changeCount + 1);
     }
 

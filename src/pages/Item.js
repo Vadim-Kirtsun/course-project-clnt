@@ -8,33 +8,31 @@ import {HeartTwoTone, TagsOutlined} from "@ant-design/icons";
 import {UserContext} from "../App";
 import AddFieldValues from "../components/AddFieldValues";
 import Tags from "../components/Tags";
-import {createLike} from "../http/likeApi";
+import {updateLike} from "../http/likeApi";
 
 
 const Item = () => {
     const params = useParams();
     const {currentUser} = useContext(UserContext);
     const [item, setItem] = useState([]);
-/*    let likeId = item.likes.filter(like => like.userId === currentUser.id)*/
     const [like, setLike] = useState(false);
 
-
     const handleLike = async () => {
-        if (!currentUser.id) {
-            return alert("Only registered users can like!");
-        }
-
-        const like = await createLike(currentUser.id, item.id);
-        if (like.message) {
-            alert(like.message);
-        }
+        setLike((curr) => (curr ? false : true));
+        await updateLike(currentUser.id, item.id);
     }
 
     useEffect(() => {
         fetchItemById(params.id).then(data => {
             setItem(data);
+            let likes = data.likes.filter(like => like.userId === currentUser.id);
+            (likes.length > 0)
+                ? setLike(true)
+                : setLike(false)
         })
     }, []);
+
+
 
     return (
         <div>
@@ -44,18 +42,22 @@ const Item = () => {
                     width: '100%',
                 }}
                 actions={[
-                    (like)
-                        ? <HeartTwoTone onClick={handleLike} twoToneColor="red"/>
-                        : <HeartTwoTone onClick={handleLike} twoToneColor="black"/>,
-
-                    <Tags icon={TagsOutlined} tags={item.tags} key="list-vertical-like-o"/>
+                    <Tags icon={TagsOutlined} tags={item.tags} key="list-vertical-like-o"/>,
+                    (currentUser.id)
+                        ? (like)
+                            ? <HeartTwoTone onClick={handleLike} twoToneColor="red"/>
+                            : <HeartTwoTone onClick={handleLike} twoToneColor="black"/>
+                        : <div></div>
                 ]}
             >
                 <AddFieldValues fields={item.add_fields} values={item.add_field_values} currentItemName={item.name}/>
             </Card>
             <hr/>
             <Comments comments={item.comments}/>
-            <AddComment/>
+            {(currentUser.id)
+                ? <AddComment currentUser={currentUser} itemId={item.id}/>
+                : <div></div>
+            }
         </div>
     );
 };

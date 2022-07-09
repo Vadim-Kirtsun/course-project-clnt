@@ -13,8 +13,8 @@ const Collection = () => {
     const [loading, setLoading] = useState(true);
     const [collection, setCollection] = useState({});
 
-
     useEffect(() => {
+        debugger
         fetchItemsById(params.id).then(data => {
             setCollection(data);
         }).finally(() => setLoading(false))
@@ -38,6 +38,7 @@ const Collection = () => {
                 id: item.id,
                 name: item.name,
                 tags: item.tags,
+                likes: item.likes,
                 content: <AddFieldValues
                     fields={collection.add_fields.filter(af => af.type === 'STRING' || af.type === 'DATE')}
                     values={item.add_field_values}/>
@@ -46,11 +47,21 @@ const Collection = () => {
                 <List.Item
                     key={item.id}
                     actions={[
-                        <IconText icon={LikeOutlined} text="156" key="list-vertical-like-o"/>,
-                        <IconText icon={MessageOutlined}
-                                  text={(item.comments != undefined) ? item.comments.length : "0"}
-                                  key="list-vertical-message"/>,
-                        <Tags icon={TagsOutlined} tags={item.tags} key="list-vertical-like-o"/>,
+                        <IconText
+                            icon={LikeOutlined}
+                            text={(item.likes != undefined) ? item.likes.length : "0"}
+                            key="list-vertical-like-o"
+                        />,
+                        <IconText
+                            icon={MessageOutlined}
+                            text={(item.comments != undefined) ? item.comments.length : "0"}
+                            key="list-vertical-message"
+                        />,
+                        <Tags
+                            icon={TagsOutlined}
+                            tags={item.tags}
+                            key="list-vertical-like-o"
+                        />,
                     ]}
                 >
                     <List.Item.Meta title={<NavLink to={`${ITEM_ROUTER}/${item.id}`}>{item.name}</NavLink>}/>
