@@ -43,7 +43,14 @@ const NavBar = () => {
                         >
                             My Collections
                         </Button>
-                    <Button
+
+                        <Button
+                            type="primary" danger ghost
+                            onClick={() => navigate(COLLECTION_ROUTER, { replace: true })}
+                        >
+                            All Collections
+                        </Button>
+                        <Button
                         type="primary" danger ghost
                         onClick={() =>logOut()}
                     >
@@ -55,6 +62,12 @@ const NavBar = () => {
                 </nav>
                 :
                 <nav className="ml-auto m-2">
+                    <Button
+                        type="primary" danger ghost
+                        onClick={() => navigate(COLLECTION_ROUTER, { replace: true })}
+                    >
+                        All Collections
+                    </Button>
                     <Button
                         type="primary" danger ghost
                         onClick={() => navigate(LOGIN_ROUTER, { replace: true })}

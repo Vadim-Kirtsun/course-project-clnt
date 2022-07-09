@@ -15,6 +15,11 @@ export const fetchItemById = async (id) => {
     return data;
 };
 
+export const latestNewItems = async () => {
+    const {data} = await $host.get('api/item/latest');
+    return data;
+};
+
 export const fetchTags = async () => {
     const {data} = await $host.get('api/tag/');
     return data;

@@ -64,7 +64,7 @@ const Item = () => {
                 <AddFieldValues fields={item.add_fields} values={item.add_field_values} currentItemName={item.name}/>
             </Card>
             <hr/>
-            <Comments comments={comments} showReplyTo={(currentUser.id)}/>
+            <Comments comments={comments}/>
             {(currentUser.id)
                 ? <AddComment currentUser={currentUser} itemId={item.id} newCommentAdded={newCommentAdded}/>
                 : <div></div>

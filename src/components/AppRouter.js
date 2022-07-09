@@ -19,7 +19,7 @@ const AppRouter = () => {
                 )}
                     <Route
                     path="*"
-                    element={<Navigate to="/collection" replace />}
+                    element={<Navigate to="/home" replace />}
                     />
                 </Routes>
 
@@ -33,7 +33,7 @@ const AppRouter = () => {
                 )}
                     <Route
                     path="*"
-                    element={<Navigate to="/collection" replace />}
+                    element={<Navigate to="/home" replace />}
                     />
                 </Routes>
     );

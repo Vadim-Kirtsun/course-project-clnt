@@ -10,6 +10,11 @@ export const fetchCollections = async () => {
     return data;
 };
 
+export const get5LargestCollections = async () => {
+    const {data} = await $host.get('api/collection/top5');
+    return data;
+};
+
 export const fetchCollectionsUser = async (id) => {
     const {data} = await $host.get('api/collection/user/' + id);
     return data;
