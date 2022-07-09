@@ -5,7 +5,8 @@ import {deleteAdditionalFields, saveAdditionalFields} from "../../http/additiona
 
 const CreateField = ({collectionId, currentAddFields, visible, setVisible}) => {
     const { Option } = Select;
-    const types = ["NUMBER", "STRING", "TEXT", "BOOLEAN", "DATE"];
+    const initialTypes = ["NUMBER", "STRING", "TEXT", "BOOLEAN", "DATE"];
+    const [types, setTypes] = useState(initialTypes);
     const [form] = Form.useForm();
 
     const onFinish = async (additionalFields) => {
@@ -18,7 +19,19 @@ const CreateField = ({collectionId, currentAddFields, visible, setVisible}) => {
         await saveAdditionalFields(collectionId, additionalFields.additionalFields);
         setVisible(false);
     };
-
+    const onChange = async (changedFields, allFields) => {
+        const groupByType = allFields[0].value.filter(v=>(v)).reduce((group, addField) => {
+            const { type } = addField;
+            group[type] = group[type] ?? [];
+            group[type].push(addField);
+            return group;
+        }, {});
+        const newTypes = initialTypes.filter(t => ((!groupByType[t]) || groupByType[t].length < 3));
+        setTypes(newTypes);
+    };
+    const addField = (add) => {
+        add();
+    }
     useEffect(() => form.resetFields(), [currentAddFields]);
 
     return (
@@ -29,8 +42,8 @@ const CreateField = ({collectionId, currentAddFields, visible, setVisible}) => {
             onOk={form.submit}
             onCancel={() => setVisible(false)}
         >
-            <Form form={form} name="dynamic_form_nest_item" onFinish={onFinish} autoComplete="off" initialValues={currentAddFields}>
-                <Form.List name="additionalFields" initialValue={currentAddFields}>
+            <Form form={form} name="dynamic_form_nest_item" onFinish={onFinish} onFieldsChange={onChange} autoComplete="off" initialValues={currentAddFields}>
+                <Form.List name="additionalFields" initialValue={currentAddFields} >
                     {(fields, { add, remove }) => (
                         <>
                             {fields.map(({ key, name, ...restField }) => (
@@ -80,7 +93,7 @@ const CreateField = ({collectionId, currentAddFields, visible, setVisible}) => {
                                             style={{
                                                 width: 120,
                                             }}
-                                        >
+                                            placeholder="Type">
                                             {types.map(type =>
                                                 <Option key={type} value={type}>{type}</Option>
                                             )}
@@ -90,7 +103,7 @@ const CreateField = ({collectionId, currentAddFields, visible, setVisible}) => {
                                 </Space>
                             ))}
                             <Form.Item>
-                                <Button type="dashed" onClick={() => add()} block icon={<PlusOutlined />}>
+                                <Button type="dashed" onClick={() => addField(add)} block icon={<PlusOutlined />}>
                                     Add field
                                 </Button>
                             </Form.Item>
