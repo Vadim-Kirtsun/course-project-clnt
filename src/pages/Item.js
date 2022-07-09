@@ -4,7 +4,7 @@ import {fetchItemById} from "../http/itemApi";
 import Comments from "../components/Comments";
 import AddComment from "../components/AddComment";
 import {Card,} from "antd";
-import {HeartTwoTone, TagsOutlined} from "@ant-design/icons";
+import {LikeTwoTone, TagsOutlined} from "@ant-design/icons";
 import {UserContext} from "../App";
 import AddFieldValues from "../components/AddFieldValues";
 import Tags from "../components/Tags";
@@ -33,7 +33,6 @@ const Item = () => {
     }, []);
 
 
-
     return (
         <div>
             <h3>Item Info</h3>
@@ -44,9 +43,7 @@ const Item = () => {
                 actions={[
                     <Tags icon={TagsOutlined} tags={item.tags} key="list-vertical-like-o"/>,
                     (currentUser.id)
-                        ? (like)
-                            ? <HeartTwoTone onClick={handleLike} twoToneColor="red"/>
-                            : <HeartTwoTone onClick={handleLike} twoToneColor="black"/>
+                        ? <LikeTwoTone onClick={handleLike} twoToneColor={(like) ? "red" : "grey"}/>
                         : <div></div>
                 ]}
             >

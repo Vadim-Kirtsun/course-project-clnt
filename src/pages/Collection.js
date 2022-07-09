@@ -14,7 +14,6 @@ const Collection = () => {
     const [collection, setCollection] = useState({});
 
     useEffect(() => {
-        debugger
         fetchItemsById(params.id).then(data => {
             setCollection(data);
         }).finally(() => setLoading(false))

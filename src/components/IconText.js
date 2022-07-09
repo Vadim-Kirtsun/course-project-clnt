@@ -1,11 +1,10 @@
 import React from 'react';
 import {Space} from "antd";
 
-const IconText = ({handleLike, icon}) => (
+const IconText = ({icon, text}) => (
     <Space>
-        <div onClick={handleLike}>
-            {React.createElement(icon)}
-        </div>
+        {React.createElement(icon)}
+        {text}
     </Space>
 );
 

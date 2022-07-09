@@ -1,8 +1,10 @@
 @import '~antd/dist/antd.css';
+.App .ant-spin {
+    min-width: 100%;
+}
 
 #light {
     background-color: #fff;
-    text-align: center;
 }
 #light h3{
     color: #495057;
