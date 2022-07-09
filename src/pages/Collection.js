@@ -38,6 +38,7 @@ const Collection = () => {
                 name: item.name,
                 tags: item.tags,
                 likes: item.likes,
+                comments: item.comments,
                 content: <AddFieldValues
                     fields={collection.add_fields.filter(af => af.type === 'STRING' || af.type === 'DATE')}
                     values={item.add_field_values}/>

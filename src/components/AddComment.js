@@ -1,16 +1,7 @@
-import { Avatar, Button, Comment, Form, Input, List } from 'antd';
-import moment from 'moment';
-import { useState } from 'react';
+import { Avatar, Button, Comment, Form, Input } from 'antd';
+import {useState} from 'react';
+import {createComment} from "../http/commentApi";
 const { TextArea } = Input;
-
-const CommentList = ({ comments }) => (
-    <List
-        dataSource={comments}
-        header={`${comments.length} ${comments.length > 1 ? 'replies' : 'reply'}`}
-        itemLayout="horizontal"
-        renderItem={(props) => <Comment {...props} />}
-    />
-);
 
 const Editor = ({ onChange, onSubmit, submitting, value }) => (
     <>
@@ -25,27 +16,23 @@ const Editor = ({ onChange, onSubmit, submitting, value }) => (
     </>
 );
 
-const AddComment = () => {
-    const [comments, setComments] = useState([]);
+const AddComment = ({currentUser, itemId, newCommentAdded}) => {
     const [submitting, setSubmitting] = useState(false);
     const [value, setValue] = useState('');
 
-    const handleSubmit = () => {
+    const handleSubmit = async (e) => {
+        debugger
+        e.preventDefault()
         if (!value) return;
         setSubmitting(true);
-        setTimeout(() => {
+        await createComment({
+            text: value,
+            userId: currentUser.id,
+            itemId: itemId
+        });
             setSubmitting(false);
             setValue('');
-            setComments([
-                ...comments,
-                {
-                    author: 'Han Solo',
-                    avatar: 'https://joeschmoe.io/api/v1/random',
-                    content: <p>{value}</p>,
-                    datetime: moment().fromNow(),
-                },
-            ]);
-        }, 1000);
+        newCommentAdded();
     };
 
     const handleChange = (e) => {
@@ -54,7 +41,6 @@ const AddComment = () => {
 
     return (
         <>
-            {comments.length > 0 && <CommentList comments={comments} />}
             <Comment
                 avatar={<Avatar src="https://joeschmoe.io/api/v1/random" alt="Han Solo" />}
                 content={

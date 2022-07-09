@@ -3,12 +3,13 @@ import {useParams} from "react-router-dom";
 import {fetchItemById} from "../http/itemApi";
 import Comments from "../components/Comments";
 import AddComment from "../components/AddComment";
-import {Card,} from "antd";
+import {Card} from "antd";
 import {LikeTwoTone, TagsOutlined} from "@ant-design/icons";
 import {UserContext} from "../App";
 import AddFieldValues from "../components/AddFieldValues";
 import Tags from "../components/Tags";
 import {updateLike} from "../http/likeApi";
+import {fetchCommentsByItem} from "../http/commentApi";
 
 
 const Item = () => {
@@ -16,7 +17,12 @@ const Item = () => {
     const {currentUser} = useContext(UserContext);
     const [item, setItem] = useState([]);
     const [like, setLike] = useState(false);
+    const [newCommentCount, setNewCommentCount] = useState(0);
+    const [comments, setComments] = useState([]);
 
+    const newCommentAdded = ()=>{
+        setNewCommentCount((curr) => ++curr);
+    }
     const handleLike = async () => {
         setLike((curr) => (curr ? false : true));
         await updateLike(currentUser.id, item.id);
@@ -25,6 +31,7 @@ const Item = () => {
     useEffect(() => {
         fetchItemById(params.id).then(data => {
             setItem(data);
+            setComments(data.comments);
             let likes = data.likes.filter(like => like.userId === currentUser.id);
             (likes.length > 0)
                 ? setLike(true)
@@ -32,6 +39,13 @@ const Item = () => {
         })
     }, []);
 
+    useEffect(() => {
+            if (item.id) {
+                fetchCommentsByItem(item.id).then(data => {
+                    setComments(data);
+                })
+            }
+        }, [newCommentCount]);
 
     return (
         <div>
@@ -50,9 +64,9 @@ const Item = () => {
                 <AddFieldValues fields={item.add_fields} values={item.add_field_values} currentItemName={item.name}/>
             </Card>
             <hr/>
-            <Comments comments={item.comments}/>
+            <Comments comments={comments} showReplyTo={(currentUser.id)}/>
             {(currentUser.id)
-                ? <AddComment currentUser={currentUser} itemId={item.id}/>
+                ? <AddComment currentUser={currentUser} itemId={item.id} newCommentAdded={newCommentAdded}/>
                 : <div></div>
             }
         </div>
