@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import {Form, Input, Modal, Select, Switch, Tag} from "antd";
-import {createItem, fetchTags} from "../../http/itemApi";
+import {createItem} from "../../http/itemApi";
 import EditAddFiled from "../EditAddFiled";
+import {fetchTags} from "../../http/tagApi";
 
 
 const CreateItem = ({collectionId, addFields = [], currentItem, visible, setVisible}) => {

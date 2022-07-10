@@ -10,6 +10,8 @@ import AddFieldValues from "../components/AddFieldValues";
 import Tags from "../components/Tags";
 import {updateLike} from "../http/likeApi";
 import {fetchCommentsByItem} from "../http/commentApi";
+import axios from "axios";
+
 
 
 const Item = () => {
@@ -29,6 +31,7 @@ const Item = () => {
     }
 
     useEffect(() => {
+        subscribe();
         fetchItemById(params.id).then(data => {
             setItem(data);
             setComments(data.comments);
@@ -39,6 +42,18 @@ const Item = () => {
         })
     }, []);
 
+    const subscribe = async  () => {
+        try {
+            const {data} = await axios.get('http://localhost:3001/get-messages');
+            setComments(prev => [...prev, data]);
+            await subscribe();
+        } catch (e) {
+            setTimeout(() => {
+                subscribe();
+            }, 500)
+        }
+    }
+
     useEffect(() => {
             if (item.id) {
                 fetchCommentsByItem(item.id).then(data => {
@@ -46,6 +61,8 @@ const Item = () => {
                 })
             }
         }, [newCommentCount]);
+
+
 
     return (
         <div>
@@ -65,10 +82,9 @@ const Item = () => {
             </Card>
             <hr/>
             <Comments comments={comments}/>
-            {(currentUser.id)
-                ? <AddComment currentUser={currentUser} itemId={item.id} newCommentAdded={newCommentAdded}/>
-                : <div></div>
-            }
+            {(currentUser.id &&
+                <AddComment currentUser={currentUser} itemId={item.id} newCommentAdded={newCommentAdded}/>
+                )}
         </div>
     );
 };

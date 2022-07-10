@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Button, Switch} from 'antd';
 import {useNavigate} from "react-router-dom";
-import {ADMIN_ROUTER, COLLECTION_ROUTER, LOGIN_ROUTER, MY_COLLECTIONS_ROUTER} from "../utils/consts";
+import {ADMIN_ROUTER, COLLECTION_ROUTER, HOME_ROUTER,LOGIN_ROUTER, MY_COLLECTIONS_ROUTER} from "../utils/consts";
 import {ThemeContext, UserContext} from "../App";
 
 
@@ -27,6 +27,12 @@ const NavBar = () => {
             {currentUser.isAuth
                 ?
                 <nav>
+                    <Button
+                        type="primary" danger ghost
+                        onClick={() => navigate(HOME_ROUTER, { replace: true })}
+                    >
+                        Home
+                    </Button>
                     <div>
                     {(currentUser.role === "ADMIN")
                         ?
@@ -62,6 +68,13 @@ const NavBar = () => {
                 </nav>
                 :
                 <nav className="ml-auto m-2">
+
+                    <Button
+                        type="primary" danger ghost
+                        onClick={() => navigate(HOME_ROUTER, { replace: true })}
+                    >
+                        Home
+                    </Button>
                     <Button
                         type="primary" danger ghost
                         onClick={() => navigate(COLLECTION_ROUTER, { replace: true })}
@@ -71,7 +84,7 @@ const NavBar = () => {
                     <Button
                         type="primary" danger ghost
                         onClick={() => navigate(LOGIN_ROUTER, { replace: true })}
-                    >Авторизация</Button>
+                    >Sign In</Button>
                 </nav>
             }
         </div>

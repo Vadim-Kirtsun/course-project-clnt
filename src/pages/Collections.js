@@ -7,7 +7,6 @@ import {COLLECTION_ROUTER} from "../utils/consts";
 import {NavLink} from "react-router-dom";
 
 
-
 const Collections = () => {
     const [allCollections, setAllCollections] = useState([]);
 

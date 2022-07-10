@@ -1,6 +1,7 @@
 import { Avatar, Button, Comment, Form, Input } from 'antd';
 import {useState} from 'react';
 import {createComment} from "../http/commentApi";
+import axios from "axios";
 const { TextArea } = Input;
 
 const Editor = ({ onChange, onSubmit, submitting, value }) => (
@@ -21,7 +22,6 @@ const AddComment = ({currentUser, itemId, newCommentAdded}) => {
     const [value, setValue] = useState('');
 
     const handleSubmit = async (e) => {
-        debugger
         e.preventDefault()
         if (!value) return;
         setSubmitting(true);
@@ -30,9 +30,15 @@ const AddComment = ({currentUser, itemId, newCommentAdded}) => {
             userId: currentUser.id,
             itemId: itemId
         });
-            setSubmitting(false);
-            setValue('');
+        setSubmitting(false);
+        setValue('');
         newCommentAdded();
+        await axios.post('http://localhost:3001/new-messages', {
+            text: value,
+            userId: currentUser.id,
+            itemId: itemId
+        })
+
     };
 
     const handleChange = (e) => {
