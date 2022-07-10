@@ -40,13 +40,13 @@ const Home = () => {
                 <Col span={12}>
                     <LatestItems/>
                 </Col>
-                {/*<Col span={2}> </Col>
+                <Col span={2}> </Col>
                 <Col span={8}>
                     <TopLargestCollections/>
 
                     <h4>Tags</h4>
                     <WordCloud {...config} />
-                </Col>*/}
+                </Col>
             </Row>
         </div>
     );
