@@ -11,7 +11,7 @@ const UploadImage = ({imageUrl, setImageUrl}) => {
     const uploadImage = (info) => {
         if(image === undefined || image === ""){
             setImage(info.file);
-        }else if (image.name == info.file.name){
+        }else if (image.name === info.file.name){
             return
         }else{
             setImage(info.file);

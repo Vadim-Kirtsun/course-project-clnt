@@ -3,7 +3,6 @@ import {Form, Input, Select, Modal} from 'antd';
 import TextArea from "antd/es/input/TextArea";
 import UploadImage from "../UploadImage";
 import {createCollection} from "../../http/collectionApi";
-import CreateField from "./CreateField";
 
 
 const CreateCollection = ({currentCollection, visible, setVisible}) => {

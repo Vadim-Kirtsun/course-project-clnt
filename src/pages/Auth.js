@@ -1,7 +1,7 @@
 import React, {useContext, useState} from 'react';
 import {Button, Card, Container, Form, Row} from "react-bootstrap";
 import {NavLink, useLocation, useNavigate} from "react-router-dom";
-import {COLLECTION_ROUTER, HOME_ROUTER, LOGIN_ROUTER, REGISTRATION_ROUTER,} from "../utils/consts";
+import {HOME_ROUTER, LOGIN_ROUTER, REGISTRATION_ROUTER,} from "../utils/consts";
 import {login, registration} from "../http/userApi";
 import {UserContext} from "../App";
 

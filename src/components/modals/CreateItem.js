@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Form, Input, Modal, Select, Switch, Tag} from "antd";
+import {Form, Input, Modal, Select, Tag} from "antd";
 import {createItem} from "../../http/itemApi";
 import EditAddFiled from "../EditAddFiled";
 import {fetchTags} from "../../http/tagApi";
@@ -28,13 +28,12 @@ const CreateItem = ({collectionId, addFields = [], currentItem, visible, setVisi
     };
 
     const fillAddFieldsArray = (addFields) => {
-        const result = addFields.map(addField => ({
+        return addFields.map(addField => ({
             addField_id: addField.id,
             name: addField.name,
             type: addField.type,
             value: getValue(addField.id),
         }))
-        return result;
     }
 
     const getValue = (id) => {
@@ -60,7 +59,7 @@ const CreateItem = ({collectionId, addFields = [], currentItem, visible, setVisi
     }, [visible])
 
     const tagRender = (props) => {
-        const {label, value, closable, onClose} = props;
+        const {label, closable, onClose} = props;
 
         const onPreventMouseDown = (event) => {
             event.preventDefault();
@@ -131,7 +130,7 @@ const CreateItem = ({collectionId, addFields = [], currentItem, visible, setVisi
             </Form>
             {(addFields !== undefined)
                 ? <EditAddFiled addFields={form.addFields}/>
-                : <div></div>}
+                : <></>}
         </Modal>
     );
 };

@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Tag, List, Space, Spin} from 'antd';
+import {List, Spin} from 'antd';
 import {LikeOutlined, MessageOutlined, TagsOutlined} from "@ant-design/icons";
 import {fetchItemsById} from "../http/collectionApi";
 import {NavLink, useParams} from "react-router-dom";
@@ -49,12 +49,12 @@ const Collection = () => {
                     actions={[
                         <IconText
                             icon={LikeOutlined}
-                            text={(item.likes != undefined) ? item.likes.length : "0"}
+                            text={(item.likes !== undefined) ? item.likes.length : "0"}
                             key="list-vertical-like-o"
                         />,
                         <IconText
                             icon={MessageOutlined}
-                            text={(item.comments != undefined) ? item.comments.length : "0"}
+                            text={(item.comments !== undefined) ? item.comments.length : "0"}
                             key="list-vertical-message"
                         />,
                         <Tags

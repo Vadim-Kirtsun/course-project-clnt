@@ -2,7 +2,7 @@ import React from 'react';
 import { MinusCircleOutlined, PlusOutlined } from '@ant-design/icons';
 import {Button, Form, Input, Select, Space} from 'antd';
 
-const AddField = ({fields, setFields}) => {
+const AddField = ({setFields}) => {
     const { Option } = Select;
     const types = ["NUMBER", "STRING", "TEXT", "CHECKBOX", "DATE"];
 

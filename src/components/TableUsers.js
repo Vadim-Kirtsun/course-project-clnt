@@ -1,7 +1,7 @@
 import React, {useContext, useEffect, useState} from 'react';
 import "antd/dist/antd.css";
 import {Button, Table} from 'antd';
-import {blockUser, changeRoleUser, getUsers} from "../http/userApi";
+import {changeRoleUser, getUsers} from "../http/userApi";
 import {UserContext} from "../App";
 
 const columns = [
@@ -36,7 +36,7 @@ const TableUsers = ({setSelectedIds, setChangesCount, changesCount}) => {
     const {currentUser, setCurrentUser} = useContext(UserContext);
 
     const rowSelection = {
-        onChange: (selectedRowKeys, selectedRows) => {
+        onChange: (selectedRowKeys) => {
             setSelectedIds(selectedRowKeys);
         },
         getCheckboxProps: (record) => ({
@@ -51,14 +51,14 @@ const TableUsers = ({setSelectedIds, setChangesCount, changesCount}) => {
                 console.log(response.err);
             }
             if (response.message) {
-                if(currentUser.id === id){setCurrentUser({...currentUser, role:role})};
+                if(currentUser.id === id){setCurrentUser({...currentUser, role:role})}
                 setChangesCount(++changesCount);
             }
         });
     }
 
     const actionButton = (id, role) => {
-        const isUser = role.toUpperCase() == "USER";
+        const isUser = role.toUpperCase() === "USER";
         const param = (isUser) ? "ADMIN" : "USER";
         return  <Button onClick={() => changeRole(id, param)}>Make {param}</Button>;
     }
