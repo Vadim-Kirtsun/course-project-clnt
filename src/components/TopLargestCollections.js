@@ -6,8 +6,15 @@ const TopLargestCollections = () => {
     const [top5, setTop5] = useState([]);
 
     useLayoutEffect(() => {
-        get5LargestCollections().then(data =>
-            setTop5(data))
+        let componentMounted = true;
+        get5LargestCollections().then(data => {
+            if (componentMounted) {
+                setTop5(data)
+            }
+        })
+        return () => {
+            componentMounted = false;
+        }
     }, [])
 
 

@@ -23,15 +23,21 @@ const Home = () => {
     };
 
     useLayoutEffect(() => {
+        let componentMounted = true;
         getTagsWithItemCount().then(data => {
-                const arr = data.map(item => ({
-                    id: item.id,
-                    name: item.name,
-                    value: Number(item.count),
-                }));
-                setData(arr);
+                if (componentMounted) {
+                    const arr = data.map(item => ({
+                        id: item.id,
+                        name: item.name,
+                        value: Number(item.count),
+                    }));
+                    setData(arr);
+                }
             }
         )
+        return () => {
+            componentMounted = false;
+        }
     }, [])
 
     return (
