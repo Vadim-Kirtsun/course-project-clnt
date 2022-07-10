@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import {Button, Switch} from 'antd';
 import {useNavigate} from "react-router-dom";
-import {ADMIN_ROUTER, COLLECTION_ROUTER, HOME_ROUTER,LOGIN_ROUTER, MY_COLLECTIONS_ROUTER} from "../utils/consts";
+import {ADMIN_ROUTER, COLLECTION_ROUTER, HOME_ROUTER, LOGIN_ROUTER, MY_COLLECTIONS_ROUTER} from "../utils/consts";
 import {ThemeContext, UserContext} from "../App";
 
 
@@ -13,82 +13,77 @@ const NavBar = () => {
     const logOut = () => {
         setCurrentUser({isAuth: false})
         localStorage.removeItem('token');
-        navigate(COLLECTION_ROUTER, { replace: true })
+        navigate(COLLECTION_ROUTER, {replace: true})
     }
 
     return (
         <div className='navbar'>
             <Switch checkedChildren={theme} unCheckedChildren={theme} defaultChecked onChange={toggleTheme}/>
-{/*            <form className="d-flex" role="search">
-                <input className="form-control me-2" type="search" placeholder="Search" aria-label="Search"/>
-                <button className="btn btn-outline-success" type="submit">Search</button>
-            </form>*/}
 
             {currentUser.isAuth
                 ?
                 <nav>
                     <Button
                         type="primary" danger ghost
-                        onClick={() => navigate(HOME_ROUTER, { replace: true })}
+                        onClick={() => navigate(HOME_ROUTER, {replace: true})}
                     >
                         Home
                     </Button>
-                    <div>
                     {(currentUser.role === "ADMIN")
                         ?
                         <Button
                             type="primary" danger ghost
-                            onClick={() => navigate(ADMIN_ROUTER, { replace: true })}
+                            onClick={() => navigate(ADMIN_ROUTER, {replace: true})}
                         >
                             Admin panel
-                        </Button> : <div></div>
+                        </Button> : <></>
                     }
-                        <Button
-                            type="primary" danger ghost
-                            onClick={() => navigate(MY_COLLECTIONS_ROUTER, { replace: true })}
-                        >
-                            My Collections
-                        </Button>
-
-                        <Button
-                            type="primary" danger ghost
-                            onClick={() => navigate(COLLECTION_ROUTER, { replace: true })}
-                        >
-                            All Collections
-                        </Button>
-                        <Button
+                    <Button
                         type="primary" danger ghost
-                        onClick={() =>logOut()}
+                        onClick={() => navigate(MY_COLLECTIONS_ROUTER, {replace: true})}
                     >
-                        Выйти
+                        My Collections
                     </Button>
-
-                    </div>
-
-                </nav>
-                :
-                <nav className="ml-auto m-2">
 
                     <Button
                         type="primary" danger ghost
-                        onClick={() => navigate(HOME_ROUTER, { replace: true })}
-                    >
-                        Home
-                    </Button>
-                    <Button
-                        type="primary" danger ghost
-                        onClick={() => navigate(COLLECTION_ROUTER, { replace: true })}
+                        onClick={() => navigate(COLLECTION_ROUTER, {replace: true})}
                     >
                         All Collections
                     </Button>
                     <Button
                         type="primary" danger ghost
-                        onClick={() => navigate(LOGIN_ROUTER, { replace: true })}
-                    >Sign In</Button>
+                        onClick={() => logOut()}
+                    >
+                        Sign Out
+                    </Button>
+
+                </nav>
+                :
+                <nav className="ml-auto m-2">
+                    <Button
+                        type="primary" danger ghost
+                        onClick={() => navigate(HOME_ROUTER, {replace: true})}
+                    >
+                        Home
+                    </Button>
+                    <Button
+                        type="primary" danger ghost
+                        onClick={() => navigate(COLLECTION_ROUTER, {replace: true})}
+                    >
+                        All Collections
+                    </Button>
+                    <Button
+                        type="primary" danger ghost
+                        onClick={() => navigate(LOGIN_ROUTER, {replace: true})}
+                    >
+                        Sign In
+                    </Button>
                 </nav>
             }
         </div>
     )
-};
+}
+;
 
 export default NavBar;

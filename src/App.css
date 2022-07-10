@@ -2,7 +2,9 @@
 .App .ant-spin {
     min-width: 100%;
 }
-
+.App .login {
+    width: 80%;
+}
 #light {
     background-color: #fff;
 }
@@ -24,6 +26,17 @@
 #dark .ant-table-thead > tr > th {
     background-color: #0f4b68;
 }
+
+#dark .ant-card {
+    background-color: #0f4b68;
+}
+#dark .ant-card-head {
+    color: #fafafa;
+}
+#dark .ant-card-meta-description {
+    color: #fafafa;
+}
+
 
 #root {
     height: 100%;
