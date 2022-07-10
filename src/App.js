@@ -15,13 +15,20 @@ const App = () => {
     const [currentUser, setCurrentUser] = useState({});
 
     useEffect(() => {
+        let componentMounted = true;
         if(currentUser.id !== undefined) {
             check().then(data => {
+
+                if (componentMounted) {
                 setCurrentUser({id: data.id, role: data.role, isAuth: true});
                 console.log(currentUser);
-            }).finally(() => setLoading(false))
+            }}).finally(() => setLoading(false))
         }else{
             setLoading(false);
+        }
+
+        return () => {
+            componentMounted = false;
         }
     }, [currentUser.id])
 
