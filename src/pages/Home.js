@@ -1,12 +1,10 @@
-import React, {useLayoutEffect, useState} from 'react';
+import React from 'react';
 import {Col, Row} from "antd";
-import {WordCloud} from "@ant-design/plots";
-import {getTagsWithItemCount} from "../http/tagApi";
 import LatestItems from "../components/LatestItems";
 import TopLargestCollections from "../components/TopLargestCollections";
 
 const Home = () => {
-    const [data, setData] = useState([]);
+    /*const [data, setData] = useState([]);
 
     const config = {
         data,
@@ -20,9 +18,9 @@ const Home = () => {
         },
         height: 200,
         random: () => 0.5,
-    };
+    };*/
 
-    useLayoutEffect(() => {
+   /* useLayoutEffect(() => {
         let componentMounted = true;
         getTagsWithItemCount().then(data => {
                 if (componentMounted) {
@@ -38,7 +36,7 @@ const Home = () => {
         return () => {
             componentMounted = false;
         }
-    }, [])
+    }, [])*/
 
     return (
         <div>
@@ -51,7 +49,7 @@ const Home = () => {
                     <TopLargestCollections/>
 
                     <h4>Tags</h4>
-                    <WordCloud {...config} />
+                    {/*<WordCloud {...config} />*/}
                 </Col>
             </Row>
         </div>
