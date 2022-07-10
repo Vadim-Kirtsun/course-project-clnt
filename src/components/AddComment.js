@@ -1,7 +1,7 @@
 import { Avatar, Button, Comment, Form, Input } from 'antd';
 import {useState} from 'react';
 import {createComment} from "../http/commentApi";
-import axios from "axios";
+import {$host} from "../http";
 const { TextArea } = Input;
 
 const Editor = ({ onChange, onSubmit, submitting, value }) => (
@@ -33,7 +33,7 @@ const AddComment = ({currentUser, itemId, newCommentAdded}) => {
         setSubmitting(false);
         setValue('');
         newCommentAdded();
-        await axios.post('http://localhost:3001/new-messages', {
+        await $host.post('new-messages', {
             text: value,
             userId: currentUser.id,
             itemId: itemId

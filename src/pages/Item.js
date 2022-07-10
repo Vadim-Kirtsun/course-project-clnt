@@ -10,7 +10,7 @@ import AddFieldValues from "../components/AddFieldValues";
 import Tags from "../components/Tags";
 import {updateLike} from "../http/likeApi";
 import {fetchCommentsByItem} from "../http/commentApi";
-import axios from "axios";
+import {$host} from "../http";
 
 
 
@@ -38,13 +38,13 @@ const Item = () => {
             let likes = data.likes.filter(like => like.userId === currentUser.id);
             (likes.length > 0)
                 ? setLike(true)
-                : setLike(false)
+                : setLike(false) 
         })
     }, []);
 
     const subscribe = async  () => {
         try {
-            const {data} = await axios.get('http://localhost:3001/get-messages');
+            const {data} = await $host.get('get-messages');
             setComments(prev => [...prev, data]);
             await subscribe();
         } catch (e) {
